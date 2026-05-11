@@ -27,7 +27,7 @@ ${isPdf ? `PDF range rules:
 - Multi-page certificates/reports/cards remain one row; do not split by page.
 - Multiple recurring instances, such as monthly liquidaciones or annual SII forms, get separate rows with disjoint ranges and their own docdate.
 - Do not return two different non-container doctypes for the exact same page range. Choose the one best supported by visible title/issuer/layout.
-- Container PDFs such as carpeta-tributaria may return the container plus actual child documents, but children need their exact visible ranges inside the container.
+- Container PDFs such as carpeta-tributaria return a single row whose page range covers the pages actually present in this upload; do not emit child documents (F22, boletas, etc.) inside the container even if they appear as visible internal sections. Do not extrapolate the range beyond the last visible page (a 4-page extract of a carpeta is @1..4, not @1..12).
 - Long legal packets and certified notarial deed copies are dominant-document uploads: return one compraventa-propiedad row for the whole packet/reproduced range unless the file clearly contains separate uploaded requirements. Do not carve out mortgage clauses, SII tables, certificates, appraisals, bank-looking annexes, or signatures inside that deed as separate documents.
 ` : ""}Cedula rule:
 - If both faces of cedula-identidad are visible in one ${isPdf ? "page" : "image"}, return two cedula-identidad rows with different partId ("front" and "back").

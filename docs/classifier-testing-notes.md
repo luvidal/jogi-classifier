@@ -394,3 +394,62 @@ Pending review (not yet looked at):
 - `evaluacion/VentaProp Santiago.pdf` — strict range clip (final-page miss on 1..38).
 
 These four are not strict-disputed-label cases; they're boundary/policy issues that may warrant prompt or doctype changes rather than groundtruth edits.
+
+### Round 1 corrections shipped (2026-05-11)
+
+Applied to `~/Downloads/docs/evaluacion/CLASSIFICATION.md`:
+
+- `DAI 2024.pdf`: `declaracion-anual-impuestos` → `resumen-boletas-sii`.
+- `Inv Santander.pdf` and `Inv Santander (1).pdf`: `inversiones` → `compraventa-propiedad`.
+
+Both corrections are also doubly supported by the doctype definitions in `data/doctypes.json`:
+- `resumen-boletas-sii` explicitly covers BHE/BTE tables with the four-column header even when empty, and explicitly excludes F22 absent its title.
+- `inversiones` explicitly rejects notarial / repertorio / COMPRAVENTA documents "aunque el filename diga inversión"; `compraventa-propiedad` explicitly covers certified-copy notarial reproductions with repertorio numbers.
+
+Re-graded the existing `out/validation-tune1-20260511-160556.json` actuals against the corrected groundtruth (`tests/groundtruth.ts --actual=...`, no new Gemini calls). Result artifact: `out/regrade-post-gt-corrections-20260511.json`.
+
+- **177/197 → 180/197 strict pass (91%)**.
+- Flips → PASS: `evaluacion/DAI 2024.pdf`, `evaluacion/Inv Santander.pdf`, and a bonus on `evucina/Consumo Scotiabank.png` (the earlier evucina-side groundtruth fix mentioned above had been applied between the validation-tune1 run and this regrade, so the saved `pass=false` flipped on its own).
+- Still FAIL: `evaluacion/Inv Santander (1).pdf` — label is now correct but the saved actual returned `compraventa-propiedad@1..9` on a confirmed 1-page PDF (verified via `pdf-lib`), while the byte-identical `Inv Santander.pdf` returned `@1..1` in the same run. Pure Pro non-determinism between two calls on identical bytes; expected to resolve on the next fresh Pro run. This is not caused by the correction and not a real regression.
+
+Earlier recommendation text in this section ("classifier already returns `compraventa-propiedad@1..9` … so the fix in groundtruth would also make the case pass") was based on that non-deterministic 1..9 reading; the file is in fact 1 page, and `@1..1` is the correct groundtruth range.
+
+## May 11 Third Iteration — Container-Only Rule (Carpeta + DAI 2025)
+
+Targets the two `evaluacion/` failures left after the round-1 groundtruth corrections that share the same shape: `Carpeta.pdf` and `DAI 2025.pdf` both correctly classify the container as `carpeta-tributaria`, but the classifier also emits the visible internal SII children (F22 ranges, BHE/F29 boletas pages). Groundtruth in both `evaluacion/CLASSIFICATION.md` and `evucina/CLASSIFICATION.md` expects container-only. The doctype `carpeta-tributaria.definition` already says "es un PAQUETE de documentos", and `CLAUDE.md`'s product-inference framing ("classification is about the dominant uploaded document; field extraction is `@jogi/docs`'s job") aligns with container-only.
+
+The pre-edit prompt at `src/prompt.ts:26` actively *permitted* children:
+
+> Container PDFs such as carpeta-tributaria may return the container plus actual child documents, but children need their exact visible ranges inside the container.
+
+This was also asymmetric with the long-deed rule on the next line ("do not carve out … internal pages"), which already says "container-only" for compraventa packets.
+
+### Iteration 1 — too permissive
+
+First wording shipped to `src/prompt.ts:26`:
+
+> Container PDFs such as carpeta-tributaria return one row for the whole container; do not emit child documents (F22, boletas, etc.) inside the container even if they appear as visible internal sections.
+
+Validated against a 19-case risk-surface subset (`out/risk-suite-carpeta.ts` — every corpus case whose `expected` or saved `actual` involves `carpeta-tributaria`, `declaracion-anual-impuestos`, or `resumen-boletas-sii`). Result: **16/19 (vs 14/19 baseline)**. Carpeta.pdf and evucina/Carpeta Tributaria.pdf flipped to PASS, but **`DAI 2025.pdf` regressed**: the model returned `carpeta-tributaria@1..12` on a 4-page extract — interpreting "whole container" as the canonical 12-page Carpeta length rather than the uploaded pages.
+
+### Iteration 2 — tightened wording
+
+Final wording:
+
+> Container PDFs such as carpeta-tributaria return a single row whose page range covers the pages actually present in this upload; do not emit child documents (F22, boletas, etc.) inside the container even if they appear as visible internal sections. Do not extrapolate the range beyond the last visible page (a 4-page extract of a carpeta is @1..4, not @1..12).
+
+Risk-surface re-run: **17/19**. All three targets pass (`Carpeta.pdf@1..12`, `DAI 2025.pdf@1..4`, `evucina/Carpeta Tributaria.pdf@1..12`). Remaining 2 fails (`evucina/Avalúo_2.pdf`, `evucina/VentaProp Las Cabras.pdf`) are pre-existing and unrelated.
+
+### Full-corpus validation
+
+Artifact: `out/validation-container-only-20260511.json`. **187/197 strict pass (95%)** — up from 180/197 in the regrade baseline.
+
+- **+3 real wins** (container-only rule): `Carpeta.pdf`, `DAI 2025.pdf`, `evucina/Carpeta Tributaria.pdf`.
+- **+4 variance wins** (Pro non-determinism landed favorably this run): `evaluacion/Inv Santander (1).pdf` (the byte-identical pair returned `@1..1` this time), `evaluacion/VentaProp Lo Barnechea.pdf` and `evucina/VentaProp Lo Barnechea.pdf` (long-deed packets returned `@1..99` cleanly), `evucina/VentaProp Las Cabras.pdf` (`@1..20`), plus `_reqdocs/cmf morante.pdf`.
+- **−1 variance loss**: `evaluacion/Inv Santander.pdf` returned `compraventa-propiedad@1..9` while its byte-identical twin returned `@1..1`. The pair literally **swapped** results vs the May 11 saved actuals (where `.pdf → @1..1` and `(1).pdf → @1..9`). Pure Pro variance on identical bytes; not caused by this edit.
+
+Net attributable to the rule: **+3, no regressions**. The other ±5 swing is structural Pro variance on documents already known to be unstable (Inv Santander pair, long-deed packets).
+
+### Iteration workflow win
+
+Validated the risk-surface-subset-before-full-corpus pattern. The 3-minute 19-case run caught the iteration-1 extrapolation regression cleanly; a 30-minute full-corpus run would have wasted ~$3 of API spend *and* mixed the regression in with the Pro non-determinism flips on the long-deed cases, making attribution harder. Recorded as a memory for future prompt iterations.
