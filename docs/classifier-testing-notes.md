@@ -292,3 +292,56 @@ Whether to accept a small dominance/range consolidation rule is less urgent afte
 Example: if Gemini returns many `compraventa-propiedad` chunks across a long PDF plus rogue internal labels, consolidate to one full-range `compraventa-propiedad`.
 
 We have not implemented that because it smells like a local patch and the current instruction is to try model/prompt/definitions first.
+
+## May 11 Ship — Root Cause Of "Bad Production"
+
+User reported production results worse than pre-classifier era. Triage found that production had been running the **un-tuned 0.1.0 prompt** for 3 weeks.
+
+Timeline:
+- Apr 21 (`jogi@753b8af3`): `@jogi/classifier` wired in at pin `05e2b2e6`.
+- Apr 21 → May 11: all prompt rules, model default, definition tuning in `src/prompt.ts` and `src/index.ts` were authored locally but never committed.
+- The `173/197` May 8 baseline in `docs/classifier-testing-notes.md` was measured against the **local working tree**, not the published SHA. Production never had those gains.
+- May 11: extracted prompt to `src/prompt.ts`, set `DEFAULT_MODEL = gemini-2.5-pro`, added `opts.generationConfig`, rebuilt `dist/`. Shipped as classifier@`9088bd4b`. Jogi pin bumped (`fb38e48a`).
+
+Wiring (verified at fix time):
+- `lib/server/docsinit.ts` injects `temperature: 0` + `thinkingBudget: 1024`; preserves caller config.
+- `lib/domain/upload/classify/orchestrator.ts` calls `classifierClassify` always (no env-flag gate). `candidateIds` narrowing is wired with full-catalog fallback. `CLASSIFY_MODEL` env defaults to `gemini-2.5-pro`.
+- `lib/server/gemini.ts` honors caller `thinkingConfig`; only forces `thinkingBudget: 0` on Flash without tools/thinkingConfig.
+- `data/doctypes.json`: no drift since May 8 (only 2 unrelated commits touched it after the wiring).
+
+May 11 re-validation:
+- Same deterministic Pro config. Result: `176/196` strict pass (89.8%) — parity with the May 8 baseline (`173/197` = 87.8%; the 1-case delta is corpus drift).
+- Artifact: `out/validation-ship-20260511-143643.json`.
+
+## evaluacion/ Folder Breakdown (30/38 pass)
+
+Pre-known classes (per Disputed Ground Truth + container-child policy + range-clipping):
+
+- `DAI 2024.pdf` → `resumen-boletas-sii` (disputed: file shows boletas/F29, not F22).
+- `Inv Santander.pdf`, `Inv Santander (1).pdf` → `compraventa-propiedad` (disputed: notarial content).
+- `Carpeta.pdf` → `carpeta-tributaria@1..12` correct, but emits extra `resumen-boletas-sii@2..3` and two `declaracion-anual-impuestos` ranges (container-vs-child policy mismatch).
+- `DAI 2025.pdf` → `carpeta-tributaria@1..4` correct, extra `resumen-boletas-sii@2..3` (same policy mismatch).
+- `VentaProp Lo Barnechea.pdf` → `compraventa-propiedad@1..81` + `informe-deuda@82..86` + `compraventa-propiedad@87..99` (long-deed still carves an internal informe-deuda block; better than pre-tuning but not one row).
+- `VentaProp Santiago.pdf` → `1..37` instead of `1..38` (strict range clip, last page missed).
+
+New finding — `Cartola Scotiabank.png` (the only one not in the earlier failure classes):
+
+- Returned `deuda-consumo`; groundtruth says `cartola-banco`.
+- The file is a **Scotiabank consolidated debt-position report** showing Créditos / Leasing / Créditos Hipotecarios / Resumen Línea Crédito / Tarjetas de Crédito in one screenshot.
+- The new "credit-card statement → deuda-consumo" rule did NOT misfire — this file lacks the cues that rule requires (no "Estado de Cuenta ... Tarjeta de Crédito" title, no CAE, no monto facturado, no pago mínimo, no compras).
+- The doctype definitions themselves create ambiguity:
+  - `cartola-banco` definition: *"También puede ser una posición consolidada solo cuando muestra productos de forma general sin detalle suficiente para clasificar una deuda específica."*
+  - `deuda-consumo` definition: *"Si una pantalla muestra varios productos pero contiene una fila/sección clara de crédito de consumo o tarjeta con saldo/vencimiento, clasificar esa..."*
+- Both have textual support; model picked the row-level signal over the consolidated-view signal.
+
+Proposed (not yet shipped) prompt addition to disambiguate, in the Debt/account distinctions section:
+
+> "Consolidated debt-position reports showing multiple product types (mortgages + consumer credit + credit lines + credit cards summary) are cartola-banco, not deuda-consumo — even when an individual row has a balance and maturity date. Reserve deuda-consumo for documents focused on a specific consumer credit or credit-card account."
+
+## Small Suite For Iteration
+
+`out/small-suite.ts` runs 10 hand-picked `evaluacion/` cases — 5 problematic + 5 sentinels — for fast prompt iteration (~90s).
+
+Baseline (5/10 pass) saved at `out/small-suite-baseline.json`; failures listed above.
+
+Workflow: edit `src/prompt.ts`, `tsx out/small-suite.ts`, compare to baseline. No regressions on the 5 passing cases before considering for the next ship.
