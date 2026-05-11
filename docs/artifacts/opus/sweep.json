@@ -1,0 +1,3775 @@
+{
+  "runAt": "2026-05-07T16:00:11.965Z",
+  "results": [
+    {
+      "file": "_cedulas/cedula daniela.pdf",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.9,
+          "partId": "front",
+          "docdate": "1989-12-16"
+        },
+        {
+          "id": "cedula-identidad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.9,
+          "partId": "back",
+          "docdate": "1989-12-16"
+        }
+      ],
+      "flags": [],
+      "primary": "cedula-identidad",
+      "durationMs": 4172
+    },
+    {
+      "file": "_cedulas/cedula evucina back.jpeg",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "confidence": 0.9,
+          "partId": "back"
+        }
+      ],
+      "flags": [],
+      "primary": "cedula-identidad",
+      "durationMs": 3036
+    },
+    {
+      "file": "_cedulas/cedula evucina front.jpeg",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "confidence": 0.9,
+          "partId": "front",
+          "docdate": null
+        }
+      ],
+      "flags": [],
+      "primary": "cedula-identidad",
+      "durationMs": 3752
+    },
+    {
+      "file": "_cedulas/cedula luis obs.jpg",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "confidence": 1,
+          "partId": "front",
+          "docdate": "2015-01-21"
+        }
+      ],
+      "flags": [],
+      "primary": "cedula-identidad",
+      "durationMs": 4042
+    },
+    {
+      "file": "_cedulas/cedula luis ok.jpg",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "confidence": 1,
+          "partId": "front",
+          "docdate": "2024-10-21"
+        },
+        {
+          "id": "cedula-identidad",
+          "confidence": 1,
+          "partId": "back",
+          "docdate": "2024-10-21"
+        }
+      ],
+      "flags": [],
+      "primary": "cedula-identidad",
+      "durationMs": 24296
+    },
+    {
+      "file": "_cedulas/cedula miguel.pdf",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.9,
+          "partId": "front",
+          "docdate": "1991-08-10"
+        },
+        {
+          "id": "cedula-identidad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.9,
+          "partId": "back",
+          "docdate": "1991-08-10"
+        },
+        {
+          "id": "certificado-no-matrimonio",
+          "start": 2,
+          "end": 2,
+          "confidence": 0.9,
+          "docdate": "2026-02-17"
+        }
+      ],
+      "flags": [],
+      "primary": "cedula-identidad",
+      "durationMs": 4055
+    },
+    {
+      "file": "_cedulas/cedula miguel.png",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "confidence": 0.9,
+          "partId": "front"
+        },
+        {
+          "id": "cedula-identidad",
+          "confidence": 0.9,
+          "partId": "back"
+        }
+      ],
+      "flags": [],
+      "primary": "cedula-identidad",
+      "durationMs": 2666
+    },
+    {
+      "file": "_cedulas/cedula nicole.png",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "confidence": 0.9,
+          "partId": "front",
+          "docdate": null
+        },
+        {
+          "id": "cedula-identidad",
+          "confidence": 0.9,
+          "partId": "back",
+          "docdate": null
+        }
+      ],
+      "flags": [],
+      "primary": "cedula-identidad",
+      "durationMs": 5827
+    },
+    {
+      "file": "_reqdocs/CMF.pdf",
+      "actual": [
+        {
+          "id": "informe-deuda",
+          "start": 1,
+          "end": 2,
+          "confidence": 0.98,
+          "docdate": "2026-03-20"
+        }
+      ],
+      "flags": [],
+      "primary": "informe-deuda",
+      "durationMs": 2477
+    },
+    {
+      "file": "_reqdocs/DAP SANTANDER.pdf",
+      "actual": [
+        {
+          "id": "inversiones",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-02-03"
+        }
+      ],
+      "flags": [],
+      "primary": "inversiones",
+      "durationMs": 2595
+    },
+    {
+      "file": "_reqdocs/DAP SCOTIBANK OK.pdf",
+      "actual": [
+        {
+          "id": "inversiones",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.8,
+          "docdate": "2026-03-02"
+        }
+      ],
+      "flags": [
+        "LOWCONF"
+      ],
+      "primary": "inversiones",
+      "durationMs": 2271
+    },
+    {
+      "file": "_reqdocs/F22Compacto.pdf",
+      "actual": [
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 1,
+          "end": 2,
+          "confidence": 0.98,
+          "docdate": "2024-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "declaracion-anual-impuestos",
+      "durationMs": 6529
+    },
+    {
+      "file": "_reqdocs/HIP Santander Las Liebres 042026.pdf",
+      "actual": [
+        {
+          "id": "deuda-hipotecaria",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2026-04-10"
+        }
+      ],
+      "flags": [],
+      "primary": "deuda-hipotecaria",
+      "durationMs": 15461
+    },
+    {
+      "file": "_reqdocs/HIP Santander Rapel 042026.pdf",
+      "actual": [
+        {
+          "id": "deuda-hipotecaria",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2026-04-10"
+        }
+      ],
+      "flags": [],
+      "primary": "deuda-hipotecaria",
+      "durationMs": 2445
+    },
+    {
+      "file": "_reqdocs/HIP Scotiabank La Villa 042026 (2).pdf",
+      "actual": [
+        {
+          "id": "deuda-hipotecaria",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2026-04-10"
+        }
+      ],
+      "flags": [],
+      "primary": "deuda-hipotecaria",
+      "durationMs": 2987
+    },
+    {
+      "file": "_reqdocs/YULIAN (JUNIO (1).pdf",
+      "actual": [
+        {
+          "id": "no-clasificado",
+          "start": 1,
+          "end": 1,
+          "confidence": 1
+        },
+        {
+          "id": "cedula-identidad",
+          "start": 2,
+          "end": 2,
+          "confidence": 0.81,
+          "partId": "front",
+          "docdate": "1994-06-05"
+        },
+        {
+          "id": "certificado-no-matrimonio",
+          "start": 3,
+          "end": 3,
+          "confidence": 0.94,
+          "partId": null,
+          "docdate": "2024-10-07"
+        },
+        {
+          "id": "cotizaciones-afp",
+          "start": 4,
+          "end": 5,
+          "confidence": 0.94,
+          "partId": null,
+          "docdate": "2025-05-01"
+        },
+        {
+          "id": "certificado-antiguedad",
+          "start": 6,
+          "end": 6,
+          "confidence": 0.93,
+          "partId": null,
+          "docdate": "2022-11-28"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 7,
+          "end": 7,
+          "confidence": 0.94,
+          "partId": null,
+          "docdate": "2025-05-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 8,
+          "end": 8,
+          "confidence": 0.94,
+          "partId": null,
+          "docdate": "2025-04-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 9,
+          "end": 9,
+          "confidence": 0.94,
+          "partId": null,
+          "docdate": "2025-03-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 10,
+          "end": 10,
+          "confidence": 0.94,
+          "partId": null,
+          "docdate": "2025-02-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 11,
+          "end": 11,
+          "confidence": 0.94,
+          "partId": null,
+          "docdate": "2025-01-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 12,
+          "end": 12,
+          "confidence": 0.94,
+          "partId": null,
+          "docdate": "2024-12-01"
+        },
+        {
+          "id": "informe-deuda",
+          "start": 13,
+          "end": 13,
+          "confidence": 0.95,
+          "partId": null,
+          "docdate": "2025-06-06"
+        },
+        {
+          "id": "deuda-consumo",
+          "start": 14,
+          "end": 16,
+          "confidence": 0.87,
+          "partId": null,
+          "docdate": "2025-05-29"
+        }
+      ],
+      "flags": [
+        "MANY"
+      ],
+      "primary": "informe-deuda",
+      "durationMs": 7440
+    },
+    {
+      "file": "_reqdocs/avaluo vucina.pdf",
+      "actual": [
+        {
+          "id": "avaluo-fiscal",
+          "start": 1,
+          "end": 5,
+          "confidence": 0.99,
+          "docdate": "2026-04-02"
+        }
+      ],
+      "flags": [],
+      "primary": "avaluo-fiscal",
+      "durationMs": 2945
+    },
+    {
+      "file": "_reqdocs/avaluo-fiscal.pdf",
+      "actual": [
+        {
+          "id": "avaluo-fiscal",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-02-18"
+        }
+      ],
+      "flags": [],
+      "primary": "avaluo-fiscal",
+      "durationMs": 9848
+    },
+    {
+      "file": "_reqdocs/balance.pdf",
+      "actual": [
+        {
+          "id": "balance-general",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2024-12-01"
+        }
+      ],
+      "flags": [],
+      "primary": "balance-general",
+      "durationMs": 2990
+    },
+    {
+      "file": "_reqdocs/boletasanual.pdf",
+      "actual": [
+        {
+          "id": "resumen-boletas-sii",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.98,
+          "docdate": "2025-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "resumen-boletas-sii",
+      "durationMs": 2945
+    },
+    {
+      "file": "_reqdocs/caso-borde-2.pdf",
+      "actual": [
+        {
+          "id": "informe-credito",
+          "start": 1,
+          "end": 5,
+          "confidence": 0.98,
+          "docdate": " : "
+        },
+        {
+          "id": "no-clasificado",
+          "start": 6,
+          "end": 6,
+          "confidence": 1
+        }
+      ],
+      "flags": [],
+      "primary": "informe-credito",
+      "durationMs": 11388
+    },
+    {
+      "file": "_reqdocs/certificado afp.pdf",
+      "actual": [
+        {
+          "id": "cotizaciones-afp",
+          "start": 1,
+          "end": 2,
+          "confidence": 0.99,
+          "docdate": "2025-12-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cotizaciones-afp",
+      "durationMs": 2327
+    },
+    {
+      "file": "_reqdocs/cmf morante.pdf",
+      "actual": [
+        {
+          "id": "informe-deuda",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.9,
+          "docdate": "2026-02-04"
+        },
+        {
+          "id": "informe-deuda",
+          "start": 2,
+          "end": 2,
+          "confidence": 0.9,
+          "docdate": null
+        }
+      ],
+      "flags": [],
+      "primary": "informe-deuda",
+      "durationMs": 14142
+    },
+    {
+      "file": "_reqdocs/cmf stella.pdf",
+      "actual": [
+        {
+          "id": "informe-deuda",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-01-08"
+        },
+        {
+          "id": "no-clasificado",
+          "start": 2,
+          "end": 2,
+          "confidence": 1
+        }
+      ],
+      "flags": [],
+      "primary": "informe-deuda",
+      "durationMs": 11115
+    },
+    {
+      "file": "_reqdocs/contrato arriendo.pdf",
+      "actual": [
+        {
+          "id": "contrato-arriendo",
+          "start": 1,
+          "end": 7,
+          "confidence": 0.96,
+          "docdate": "2025-03-15"
+        }
+      ],
+      "flags": [],
+      "primary": "contrato-arriendo",
+      "durationMs": 13536
+    },
+    {
+      "file": "_reqdocs/cta rara.png",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "confidence": 0.85,
+          "docdate": "2024-10-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 3100
+    },
+    {
+      "file": "_reqdocs/liqsueldo.webp",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "confidence": 0.96,
+          "docdate": "2023-07-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 35013
+    },
+    {
+      "file": "_reqdocs/liquidaciones 02 a 10 a.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2025-02-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 2,
+          "end": 2,
+          "confidence": 0.96,
+          "docdate": "2025-03-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 3,
+          "end": 3,
+          "confidence": 0.96,
+          "docdate": "2025-04-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 4,
+          "end": 4,
+          "confidence": 0.96,
+          "docdate": "2025-05-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 5,
+          "end": 5,
+          "confidence": 0.96,
+          "docdate": "2025-06-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 6,
+          "end": 6,
+          "confidence": 0.96,
+          "docdate": "2025-07-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 7,
+          "end": 7,
+          "confidence": 0.96,
+          "docdate": "2025-08-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 8,
+          "end": 8,
+          "confidence": 0.96,
+          "docdate": "2025-09-01"
+        },
+        {
+          "id": "no-clasificado",
+          "start": 9,
+          "end": 9,
+          "confidence": 1
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 44409
+    },
+    {
+      "file": "_reqdocs/liquidaciones 02 a 10 b.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.95,
+          "docdate": "2025-10-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 2,
+          "end": 2,
+          "confidence": 0.95,
+          "docdate": "2025-09-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 3,
+          "end": 3,
+          "confidence": 0.95,
+          "docdate": "2025-08-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 4,
+          "end": 5,
+          "confidence": 0.95,
+          "docdate": "2025-07-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 6,
+          "end": 7,
+          "confidence": 0.95,
+          "docdate": "2025-06-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 8,
+          "end": 9,
+          "confidence": 0.95,
+          "docdate": "2025-05-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 10,
+          "end": 11,
+          "confidence": 0.95,
+          "docdate": "2025-04-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 12,
+          "end": 13,
+          "confidence": 0.95,
+          "docdate": "2025-03-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 14,
+          "end": 15,
+          "confidence": 0.95,
+          "docdate": "2025-02-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 42723
+    },
+    {
+      "file": "_reqdocs/liquidación peluda.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 2,
+          "confidence": 0.99,
+          "docdate": "2025-09-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 37295
+    },
+    {
+      "file": "_reqdocs/matrimonio.pdf",
+      "actual": [
+        {
+          "id": "certificado-matrimonio",
+          "start": 1,
+          "end": 1,
+          "confidence": 1,
+          "docdate": "2008-04-03"
+        }
+      ],
+      "flags": [],
+      "primary": "certificado-matrimonio",
+      "durationMs": 3349
+    },
+    {
+      "file": "_reqdocs/nacimiento.pdf",
+      "actual": [
+        {
+          "id": "cert-nacimiento-hijo",
+          "start": 1,
+          "end": 1,
+          "confidence": 1,
+          "docdate": "1975-01-08"
+        }
+      ],
+      "flags": [],
+      "primary": "cert-nacimiento-hijo",
+      "durationMs": 2596
+    },
+    {
+      "file": "_reqdocs/padrón ford.jpeg",
+      "actual": [
+        {
+          "id": "padron",
+          "confidence": 0.9,
+          "docdate": "2017-12-28"
+        }
+      ],
+      "flags": [],
+      "primary": "padron",
+      "durationMs": 18705
+    },
+    {
+      "file": "_reqdocs/padrón mazda.pdf",
+      "actual": [
+        {
+          "id": "padron",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-07-23"
+        }
+      ],
+      "flags": [],
+      "primary": "padron",
+      "durationMs": 24238
+    },
+    {
+      "file": "_reqdocs/padrón suzuki sx4.png",
+      "actual": [],
+      "flags": [
+        "ERROR"
+      ],
+      "primary": null,
+      "durationMs": 28343,
+      "error": "La IA está con mucha demanda, espera unos minutos y reintenta."
+    },
+    {
+      "file": "astreide/ASTREIDE MARIE GERTRUDE/AFP.pdf",
+      "actual": [
+        {
+          "id": "cotizaciones-afp",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cotizaciones-afp",
+      "durationMs": 3314
+    },
+    {
+      "file": "astreide/ASTREIDE MARIE GERTRUDE/Antigüedad MYM ALIMENTOS SPA.pdf",
+      "actual": [
+        {
+          "id": "certificado-antiguedad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-07-10"
+        }
+      ],
+      "flags": [],
+      "primary": "certificado-antiguedad",
+      "durationMs": 2557
+    },
+    {
+      "file": "astreide/ASTREIDE MARIE GERTRUDE/CMF.pdf",
+      "actual": [
+        {
+          "id": "informe-deuda",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.98,
+          "docdate": "2023-07-07"
+        }
+      ],
+      "flags": [],
+      "primary": "informe-deuda",
+      "durationMs": 20692
+    },
+    {
+      "file": "astreide/ASTREIDE MARIE GERTRUDE/Doc Astreide Marie.pdf",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.84,
+          "partId": "front",
+          "docdate": "1982-09-18"
+        },
+        {
+          "id": "cedula-identidad",
+          "start": 2,
+          "end": 2,
+          "confidence": 0.88,
+          "partId": "back",
+          "docdate": "1982-09-18"
+        },
+        {
+          "id": "certificado-no-matrimonio",
+          "start": 3,
+          "end": 3,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2026-03-10"
+        },
+        {
+          "id": "cert-nacimiento-hijo",
+          "start": 4,
+          "end": 4,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2020-09-08"
+        },
+        {
+          "id": "certificado-antiguedad",
+          "start": 5,
+          "end": 5,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2025-07-10"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 6,
+          "end": 6,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2025-09-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 7,
+          "end": 7,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2025-10-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 8,
+          "end": 8,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2025-11-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 9,
+          "end": 9,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2025-12-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 10,
+          "end": 10,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2026-01-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 11,
+          "end": 11,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2026-02-01"
+        },
+        {
+          "id": "cotizaciones-afp",
+          "start": 12,
+          "end": 13,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2026-01-01"
+        },
+        {
+          "id": "informe-deuda",
+          "start": 14,
+          "end": 15,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2026-03-03"
+        }
+      ],
+      "flags": [
+        "MANY"
+      ],
+      "primary": "certificado-no-matrimonio",
+      "durationMs": 8065
+    },
+    {
+      "file": "astreide/ASTREIDE MARIE GERTRUDE/LiqSueldo.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-10-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 2870
+    },
+    {
+      "file": "astreide/ASTREIDE MARIE GERTRUDE/LiqSueldo_1.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-12-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 47596
+    },
+    {
+      "file": "astreide/ASTREIDE MARIE GERTRUDE/LiqSueldo_2.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-11-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 2465
+    },
+    {
+      "file": "astreide/ASTREIDE MARIE GERTRUDE/LiqSueldo_3.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-09-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 18089
+    },
+    {
+      "file": "astreide/ASTREIDE MARIE GERTRUDE/LiqSueldo_4.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2026-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 20593
+    },
+    {
+      "file": "astreide/ASTREIDE MARIE GERTRUDE/LiqSueldo_5.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2026-02-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 66950
+    },
+    {
+      "file": "astreide/ASTREIDE MARIE GERTRUDE/Nacimiento.pdf",
+      "actual": [
+        {
+          "id": "cert-nacimiento-hijo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.9,
+          "docdate": "2020-09-08"
+        }
+      ],
+      "flags": [],
+      "primary": "cert-nacimiento-hijo",
+      "durationMs": 2605
+    },
+    {
+      "file": "astreide/ASTREIDE MARIE GERTRUDE/NoMatrimonio.pdf",
+      "actual": [
+        {
+          "id": "certificado-no-matrimonio",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.9,
+          "docdate": "2026-03-10"
+        }
+      ],
+      "flags": [],
+      "primary": "certificado-no-matrimonio",
+      "durationMs": 28187
+    },
+    {
+      "file": "astreide/BATHOLD/AFP.pdf",
+      "actual": [
+        {
+          "id": "cotizaciones-afp",
+          "start": 1,
+          "end": 3,
+          "confidence": 0.9,
+          "docdate": "2025-12-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cotizaciones-afp",
+      "durationMs": 3499
+    },
+    {
+      "file": "astreide/BATHOLD/Antigüedad PAGUA SPA.PDF",
+      "actual": [
+        {
+          "id": "certificado-antiguedad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-02-27"
+        }
+      ],
+      "flags": [],
+      "primary": "certificado-antiguedad",
+      "durationMs": 2709
+    },
+    {
+      "file": "astreide/BATHOLD/CMF.pdf",
+      "actual": [
+        {
+          "id": "informe-deuda",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2023-07-07"
+        }
+      ],
+      "flags": [],
+      "primary": "informe-deuda",
+      "durationMs": 2605
+    },
+    {
+      "file": "astreide/BATHOLD/Doc Beauliere Jean .pdf",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.8,
+          "partId": "front",
+          "docdate": null
+        },
+        {
+          "id": "cedula-identidad",
+          "start": 2,
+          "end": 2,
+          "confidence": 0.8,
+          "partId": "back",
+          "docdate": null
+        },
+        {
+          "id": "certificado-no-matrimonio",
+          "start": 3,
+          "end": 3,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2026-03-10"
+        },
+        {
+          "id": "cert-nacimiento-hijo",
+          "start": 4,
+          "end": 4,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2026-03-05"
+        },
+        {
+          "id": "certificado-antiguedad",
+          "start": 5,
+          "end": 5,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2026-03-05"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 6,
+          "end": 6,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2025-09-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 7,
+          "end": 7,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2025-10-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 8,
+          "end": 8,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2025-11-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 9,
+          "end": 9,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2025-12-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 10,
+          "end": 10,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2026-01-01"
+        },
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 11,
+          "end": 11,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2026-02-01"
+        },
+        {
+          "id": "cotizaciones-afp",
+          "start": 12,
+          "end": 12,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2026-01-01"
+        },
+        {
+          "id": "informe-deuda",
+          "start": 13,
+          "end": 13,
+          "confidence": 0.9,
+          "partId": null,
+          "docdate": "2026-03-05"
+        },
+        {
+          "id": "no-clasificado",
+          "start": 14,
+          "end": 16,
+          "confidence": 1
+        }
+      ],
+      "flags": [
+        "MANY"
+      ],
+      "primary": "certificado-no-matrimonio",
+      "durationMs": 8564
+    },
+    {
+      "file": "astreide/BATHOLD/LiqSueldo.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 2876
+    },
+    {
+      "file": "astreide/BATHOLD/LiqSueldo_1.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-10-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 2621
+    },
+    {
+      "file": "astreide/BATHOLD/LiqSueldo_2.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2025-11-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 27682
+    },
+    {
+      "file": "astreide/BATHOLD/LiqSueldo_3.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-12-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 4447
+    },
+    {
+      "file": "astreide/BATHOLD/LiqSueldo_4.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-09-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 25255
+    },
+    {
+      "file": "astreide/BATHOLD/LiqSueldo_5.pdf",
+      "actual": [],
+      "flags": [
+        "ERROR"
+      ],
+      "primary": null,
+      "durationMs": 19881,
+      "error": "La IA está con mucha demanda, espera unos minutos y reintenta."
+    },
+    {
+      "file": "evaluacion/AFP.pdf",
+      "actual": [
+        {
+          "id": "cotizaciones-afp",
+          "start": 1,
+          "end": 2,
+          "confidence": 0.95,
+          "docdate": "2026-03-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cotizaciones-afp",
+      "durationMs": 4916
+    },
+    {
+      "file": "evaluacion/Arriendo Camino Turístico 11.540 depto. 04, Estacionamientos N° 3 y 43, bodega N° 19, Lo Barnechea.pdf",
+      "actual": [
+        {
+          "id": "contrato-arriendo",
+          "start": 1,
+          "end": 7,
+          "confidence": 0.99,
+          "docdate": "2025-03-15"
+        }
+      ],
+      "flags": [],
+      "primary": "contrato-arriendo",
+      "durationMs": 50831
+    },
+    {
+      "file": "evaluacion/Avalúo (1).pdf",
+      "actual": [
+        {
+          "id": "avaluo-fiscal",
+          "start": 1,
+          "end": 5,
+          "confidence": 0.9,
+          "docdate": "2026-04-02"
+        }
+      ],
+      "flags": [],
+      "primary": "avaluo-fiscal",
+      "durationMs": 26228
+    },
+    {
+      "file": "evaluacion/Avalúo.pdf",
+      "actual": [
+        {
+          "id": "avaluo-fiscal",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-04-02"
+        }
+      ],
+      "flags": [],
+      "primary": "avaluo-fiscal",
+      "durationMs": 2722
+    },
+    {
+      "file": "evaluacion/Balance Gral 2024.pdf",
+      "actual": [
+        {
+          "id": "balance-general",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2024-12-01"
+        }
+      ],
+      "flags": [],
+      "primary": "balance-general",
+      "durationMs": 3550
+    },
+    {
+      "file": "evaluacion/Boletas 2024.pdf",
+      "actual": [
+        {
+          "id": "resumen-boletas-sii",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.95,
+          "docdate": "2024-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "resumen-boletas-sii",
+      "durationMs": 2886
+    },
+    {
+      "file": "evaluacion/Boletas 2025.pdf",
+      "actual": [
+        {
+          "id": "resumen-boletas-sii",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.9,
+          "docdate": "2025-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "resumen-boletas-sii",
+      "durationMs": 28859
+    },
+    {
+      "file": "evaluacion/Boletas 2026.pdf",
+      "actual": [
+        {
+          "id": "resumen-boletas-sii",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "resumen-boletas-sii",
+      "durationMs": 2800
+    },
+    {
+      "file": "evaluacion/CMF.pdf",
+      "actual": [
+        {
+          "id": "informe-deuda",
+          "start": 1,
+          "end": 2,
+          "confidence": 0.99,
+          "docdate": "2026-03-20"
+        }
+      ],
+      "flags": [],
+      "primary": "informe-deuda",
+      "durationMs": 2625
+    },
+    {
+      "file": "evaluacion/Carnet Frente.jpg",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "confidence": 0.9,
+          "partId": "front",
+          "docdate": "2017-09-29"
+        }
+      ],
+      "flags": [],
+      "primary": "cedula-identidad",
+      "durationMs": 2583
+    },
+    {
+      "file": "evaluacion/Carnet Revés.jpg",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "confidence": 0.99,
+          "partId": "back",
+          "docdate": null
+        }
+      ],
+      "flags": [],
+      "primary": "cedula-identidad",
+      "durationMs": 2605
+    },
+    {
+      "file": "evaluacion/Carpeta.pdf",
+      "actual": [
+        {
+          "id": "carpeta-tributaria",
+          "start": 1,
+          "end": 12,
+          "confidence": 0.99,
+          "docdate": null
+        },
+        {
+          "id": "resumen-boletas-sii",
+          "start": 2,
+          "end": 2,
+          "confidence": 0.85,
+          "docdate": "2025-01-01"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 8,
+          "end": 9,
+          "confidence": 0.99,
+          "docdate": "2025-01-01"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 10,
+          "end": 11,
+          "confidence": 0.99,
+          "docdate": "2024-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "carpeta-tributaria",
+      "durationMs": 52952
+    },
+    {
+      "file": "evaluacion/Cartola Scotiabank (1).pdf",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2025-11-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 2922
+    },
+    {
+      "file": "evaluacion/Cartola Scotiabank (2).pdf",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2026-04-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 47612
+    },
+    {
+      "file": "evaluacion/Cartola Scotiabank (3).pdf",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-12-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 2508
+    },
+    {
+      "file": "evaluacion/Cartola Scotiabank (4).pdf",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2026-02-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 39904
+    },
+    {
+      "file": "evaluacion/Cartola Scotiabank (5).pdf",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-03-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 2700
+    },
+    {
+      "file": "evaluacion/Cartola Scotiabank.pdf",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-10-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 31023
+    },
+    {
+      "file": "evaluacion/Cartola Scotiabank.png",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "confidence": 0.82,
+          "docdate": null
+        }
+      ],
+      "flags": [
+        "LOWCONF"
+      ],
+      "primary": "cartola-banco",
+      "durationMs": 2479
+    },
+    {
+      "file": "evaluacion/Consumo Itaú.pdf",
+      "actual": [
+        {
+          "id": "deuda-consumo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-04-27"
+        }
+      ],
+      "flags": [],
+      "primary": "deuda-consumo",
+      "durationMs": 2439
+    },
+    {
+      "file": "evaluacion/DAI 2024.pdf",
+      "actual": [
+        {
+          "id": "resumen-boletas-sii",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.98,
+          "docdate": "2026-03-01"
+        }
+      ],
+      "flags": [],
+      "primary": "resumen-boletas-sii",
+      "durationMs": 31873
+    },
+    {
+      "file": "evaluacion/DAI 2025.pdf",
+      "actual": [
+        {
+          "id": "carpeta-tributaria",
+          "start": 1,
+          "end": 4,
+          "confidence": 0.99,
+          "docdate": "2026-04-02"
+        },
+        {
+          "id": "resumen-boletas-sii",
+          "start": 1,
+          "end": 3,
+          "confidence": 0.99,
+          "docdate": "2026-03-01"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 4,
+          "end": 4,
+          "confidence": 0.99,
+          "docdate": "2025-08-01"
+        }
+      ],
+      "flags": [],
+      "primary": "carpeta-tributaria",
+      "durationMs": 3220
+    },
+    {
+      "file": "evaluacion/Hipo Santander (1).pdf",
+      "actual": [
+        {
+          "id": "deuda-hipotecaria",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-04-10"
+        }
+      ],
+      "flags": [],
+      "primary": "deuda-hipotecaria",
+      "durationMs": 2386
+    },
+    {
+      "file": "evaluacion/Hipo Santander.pdf",
+      "actual": [
+        {
+          "id": "deuda-hipotecaria",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.9,
+          "docdate": "2026-04-10"
+        }
+      ],
+      "flags": [],
+      "primary": "deuda-hipotecaria",
+      "durationMs": 18851
+    },
+    {
+      "file": "evaluacion/Hipo Scotiabank.pdf",
+      "actual": [
+        {
+          "id": "deuda-hipotecaria",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-04-10"
+        }
+      ],
+      "flags": [],
+      "primary": "deuda-hipotecaria",
+      "durationMs": 23698
+    },
+    {
+      "file": "evaluacion/Inv Santander (1).pdf",
+      "actual": [
+        {
+          "id": "compraventa-propiedad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2016-12-22"
+        }
+      ],
+      "flags": [],
+      "primary": "compraventa-propiedad",
+      "durationMs": 2637
+    },
+    {
+      "file": "evaluacion/Inv Santander.pdf",
+      "actual": [
+        {
+          "id": "compraventa-propiedad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2016-12-22"
+        }
+      ],
+      "flags": [],
+      "primary": "compraventa-propiedad",
+      "durationMs": 2171
+    },
+    {
+      "file": "evaluacion/LiqSueldo 01-2026 AFIANZA SPA.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 32629
+    },
+    {
+      "file": "evaluacion/LiqSueldo 02-2026 AFIANZA SPA.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-02-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 3186
+    },
+    {
+      "file": "evaluacion/LiqSueldo 03-2026 AFIANZA SPA.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-03-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 28183
+    },
+    {
+      "file": "evaluacion/LiqSueldo 10-2025 AFIANZA SPA.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-10-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 5095
+    },
+    {
+      "file": "evaluacion/LiqSueldo 12-2025 AFIANZA SPA.pdf",
+      "actual": [],
+      "flags": [
+        "ERROR"
+      ],
+      "primary": null,
+      "durationMs": 28933,
+      "error": "La IA está con mucha demanda, espera unos minutos y reintenta."
+    },
+    {
+      "file": "evaluacion/LiqSueldo.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.9,
+          "docdate": "2025-11-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 40958
+    },
+    {
+      "file": "evaluacion/Matrimonio.pdf",
+      "actual": [
+        {
+          "id": "certificado-matrimonio",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2009-09-12"
+        }
+      ],
+      "flags": [],
+      "primary": "certificado-matrimonio",
+      "durationMs": 2292
+    },
+    {
+      "file": "evaluacion/Padrón MAZDA.pdf",
+      "actual": [
+        {
+          "id": "padron",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-07-23"
+        }
+      ],
+      "flags": [],
+      "primary": "padron",
+      "durationMs": 3347
+    },
+    {
+      "file": "evaluacion/VentaProp Lo Barnechea.pdf",
+      "actual": [
+        {
+          "id": "no-clasificado",
+          "start": 1,
+          "end": 1,
+          "confidence": 1
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 2,
+          "end": 38,
+          "confidence": 0.96,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 39,
+          "end": 39,
+          "confidence": 0.9,
+          "docdate": "2024-01-01"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 40,
+          "end": 42,
+          "confidence": 0.94,
+          "docdate": "2024-09-22"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 43,
+          "end": 43,
+          "confidence": 0.9,
+          "docdate": "2024-01-01"
+        },
+        {
+          "id": "carton-ds1",
+          "start": 44,
+          "end": 46,
+          "confidence": 0.96,
+          "docdate": "2024-06-27"
+        },
+        {
+          "id": "carton-ds1",
+          "start": 47,
+          "end": 50,
+          "confidence": 0.96,
+          "docdate": "2024-07-31"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 51,
+          "end": 52,
+          "confidence": 0.9,
+          "docdate": "2023-01-24"
+        },
+        {
+          "id": "avaluo-fiscal",
+          "start": 53,
+          "end": 71,
+          "confidence": 0.95,
+          "docdate": "2024-05-06"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 72,
+          "end": 72,
+          "confidence": 0.9,
+          "docdate": "2024-11-21"
+        },
+        {
+          "id": "certificado-matrimonio",
+          "start": 73,
+          "end": 73,
+          "confidence": 0.96,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 74,
+          "end": 75,
+          "confidence": 0.9,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 76,
+          "end": 77,
+          "confidence": 0.9,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 78,
+          "end": 79,
+          "confidence": 0.9,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 80,
+          "end": 81,
+          "confidence": 0.9,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 82,
+          "end": 82,
+          "confidence": 0.94,
+          "docdate": "2025-01-03"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 83,
+          "end": 83,
+          "confidence": 0.94,
+          "docdate": "2025-01-03"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 84,
+          "end": 84,
+          "confidence": 0.94,
+          "docdate": "2025-01-03"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 85,
+          "end": 85,
+          "confidence": 0.94,
+          "docdate": "2025-01-03"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 86,
+          "end": 86,
+          "confidence": 0.94,
+          "docdate": "2025-01-03"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 87,
+          "end": 87,
+          "confidence": 0.94,
+          "docdate": "2025-01-03"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 88,
+          "end": 89,
+          "confidence": 0.94,
+          "docdate": "2025-01-02"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 90,
+          "end": 91,
+          "confidence": 0.94,
+          "docdate": "2025-01-02"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 92,
+          "end": 93,
+          "confidence": 0.94,
+          "docdate": "2025-01-02"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 94,
+          "end": 95,
+          "confidence": 0.94,
+          "docdate": "2025-01-02"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 96,
+          "end": 97,
+          "confidence": 0.94,
+          "docdate": "2025-01-02"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 98,
+          "end": 99,
+          "confidence": 0.94,
+          "docdate": "2025-01-02"
+        }
+      ],
+      "flags": [
+        "MANY"
+      ],
+      "primary": "compraventa-propiedad",
+      "durationMs": 22067
+    },
+    {
+      "file": "evaluacion/VentaProp Quilpué.pdf",
+      "actual": [
+        {
+          "id": "compraventa-propiedad",
+          "start": 1,
+          "end": 5,
+          "confidence": 0.99,
+          "docdate": "2016-12-22"
+        }
+      ],
+      "flags": [],
+      "primary": "compraventa-propiedad",
+      "durationMs": 35578
+    },
+    {
+      "file": "evaluacion/VentaProp Santiago.pdf",
+      "actual": [
+        {
+          "id": "compraventa-propiedad",
+          "start": 1,
+          "end": 35,
+          "confidence": 0.99,
+          "docdate": "2010-11-30"
+        },
+        {
+          "id": "no-clasificado",
+          "start": 36,
+          "end": 38,
+          "confidence": 1
+        }
+      ],
+      "flags": [],
+      "primary": "compraventa-propiedad",
+      "durationMs": 9884
+    },
+    {
+      "file": "evucina/AFP.pdf",
+      "actual": [
+        {
+          "id": "cotizaciones-afp",
+          "start": 1,
+          "end": 2,
+          "confidence": 0.96,
+          "docdate": "2026-03-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cotizaciones-afp",
+      "durationMs": 2563
+    },
+    {
+      "file": "evucina/Avalúo.pdf",
+      "actual": [
+        {
+          "id": "avaluo-fiscal",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-04-02"
+        }
+      ],
+      "flags": [],
+      "primary": "avaluo-fiscal",
+      "durationMs": 2405
+    },
+    {
+      "file": "evucina/Avalúo_1.pdf",
+      "actual": [
+        {
+          "id": "no-clasificado",
+          "start": 1,
+          "end": 1,
+          "confidence": 1
+        }
+      ],
+      "flags": [
+        "EMPTY"
+      ],
+      "primary": null,
+      "durationMs": 26242
+    },
+    {
+      "file": "evucina/Avalúo_2.pdf",
+      "actual": [
+        {
+          "id": "resumen-boletas-sii",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.95,
+          "docdate": "2025-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "resumen-boletas-sii",
+      "durationMs": 21679
+    },
+    {
+      "file": "evucina/Avalúo_3.pdf",
+      "actual": [
+        {
+          "id": "avaluo-fiscal",
+          "start": 1,
+          "end": 5,
+          "confidence": 1,
+          "docdate": "2026-04-02"
+        }
+      ],
+      "flags": [],
+      "primary": "avaluo-fiscal",
+      "durationMs": 3461
+    },
+    {
+      "file": "evucina/Balance Gral 2024.pdf",
+      "actual": [
+        {
+          "id": "balance-general",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2024-12-01"
+        }
+      ],
+      "flags": [],
+      "primary": "balance-general",
+      "durationMs": 2601
+    },
+    {
+      "file": "evucina/Boletas 2024.pdf",
+      "actual": [
+        {
+          "id": "resumen-boletas-sii",
+          "start": 1,
+          "end": 1,
+          "confidence": 1,
+          "docdate": "2024-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "resumen-boletas-sii",
+      "durationMs": 2908
+    },
+    {
+      "file": "evucina/Boletas 2026.pdf",
+      "actual": [
+        {
+          "id": "resumen-boletas-sii",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.98,
+          "docdate": "2026-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "resumen-boletas-sii",
+      "durationMs": 10925
+    },
+    {
+      "file": "evucina/CMF.pdf",
+      "actual": [
+        {
+          "id": "informe-deuda",
+          "start": 1,
+          "end": 2,
+          "confidence": 0.98,
+          "docdate": "2026-03-20"
+        }
+      ],
+      "flags": [],
+      "primary": "informe-deuda",
+      "durationMs": 2565
+    },
+    {
+      "file": "evucina/Carnet Frente.jpg",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "confidence": 1,
+          "partId": "front",
+          "docdate": "1977-11-14"
+        }
+      ],
+      "flags": [],
+      "primary": "cedula-identidad",
+      "durationMs": 21972
+    },
+    {
+      "file": "evucina/Carnet Revés.jpg",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "confidence": 0.9,
+          "partId": "back"
+        }
+      ],
+      "flags": [],
+      "primary": "cedula-identidad",
+      "durationMs": 2793
+    },
+    {
+      "file": "evucina/Carpeta Tributaria.pdf",
+      "actual": [
+        {
+          "id": "carpeta-tributaria",
+          "start": 1,
+          "end": 12,
+          "confidence": 1,
+          "docdate": null
+        },
+        {
+          "id": "resumen-boletas-sii",
+          "start": 2,
+          "end": 3,
+          "confidence": 0.99,
+          "docdate": "2025-01-01"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 8,
+          "end": 9,
+          "confidence": 0.99,
+          "docdate": "2025-01-01"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 10,
+          "end": 11,
+          "confidence": 0.99,
+          "docdate": "2024-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "carpeta-tributaria",
+      "durationMs": 27848
+    },
+    {
+      "file": "evucina/Cartola Scotiabank.pdf",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2026-03-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 26265
+    },
+    {
+      "file": "evucina/Cartola Scotiabank_1.pdf",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2026-02-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 2686
+    },
+    {
+      "file": "evucina/Cartola Scotiabank_2.pdf",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.98,
+          "docdate": "2026-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 2640
+    },
+    {
+      "file": "evucina/Cartola Scotiabank_3.pdf",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-12-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 2418
+    },
+    {
+      "file": "evucina/Cartola Scotiabank_4.pdf",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2025-10-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 2234
+    },
+    {
+      "file": "evucina/Cartola Scotiabank_5.pdf",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-11-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 2407
+    },
+    {
+      "file": "evucina/Consumo Itaú.pdf",
+      "actual": [
+        {
+          "id": "deuda-consumo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.85,
+          "docdate": "2026-04-27"
+        }
+      ],
+      "flags": [],
+      "primary": "deuda-consumo",
+      "durationMs": 8790
+    },
+    {
+      "file": "evucina/Consumo Scotiabank.png",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "confidence": 0.82,
+          "docdate": "2026-04-02"
+        }
+      ],
+      "flags": [
+        "LOWCONF"
+      ],
+      "primary": "cartola-banco",
+      "durationMs": 30516
+    },
+    {
+      "file": "evucina/DAI 2024.pdf",
+      "actual": [
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.98,
+          "docdate": "2025-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "declaracion-anual-impuestos",
+      "durationMs": 2828
+    },
+    {
+      "file": "evucina/DAI.pdf",
+      "actual": [
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.98,
+          "docdate": "2024-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "declaracion-anual-impuestos",
+      "durationMs": 49293
+    },
+    {
+      "file": "evucina/Hipo Banco.pdf",
+      "actual": [
+        {
+          "id": "deuda-hipotecaria",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.86,
+          "docdate": null
+        }
+      ],
+      "flags": [],
+      "primary": "deuda-hipotecaria",
+      "durationMs": 38379
+    },
+    {
+      "file": "evucina/Hipo Santander.pdf",
+      "actual": [
+        {
+          "id": "deuda-hipotecaria",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-04-10"
+        }
+      ],
+      "flags": [],
+      "primary": "deuda-hipotecaria",
+      "durationMs": 2599
+    },
+    {
+      "file": "evucina/Hipo Santander_1.pdf",
+      "actual": [
+        {
+          "id": "deuda-hipotecaria",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.9,
+          "docdate": "2026-04-10"
+        }
+      ],
+      "flags": [],
+      "primary": "deuda-hipotecaria",
+      "durationMs": 2912
+    },
+    {
+      "file": "evucina/Hipo Scotiabank.pdf",
+      "actual": [
+        {
+          "id": "deuda-hipotecaria",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2026-04-10"
+        }
+      ],
+      "flags": [],
+      "primary": "deuda-hipotecaria",
+      "durationMs": 3953
+    },
+    {
+      "file": "evucina/LiqSueldo 01-2026 AFIANZA SPA.pdf",
+      "actual": [],
+      "flags": [
+        "ERROR"
+      ],
+      "primary": null,
+      "durationMs": 1989,
+      "error": "La IA está con mucha demanda, espera unos minutos y reintenta."
+    },
+    {
+      "file": "evucina/LiqSueldo 02-2026 AFIANZA SPA.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-02-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 2221
+    },
+    {
+      "file": "evucina/LiqSueldo 03-2026 AFIANZA SPA (76.885.721-0).pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-03-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 8143
+    },
+    {
+      "file": "evucina/Matrimonio.pdf",
+      "actual": [
+        {
+          "id": "certificado-matrimonio",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.98,
+          "docdate": "2009-09-12"
+        }
+      ],
+      "flags": [],
+      "primary": "certificado-matrimonio",
+      "durationMs": 2239
+    },
+    {
+      "file": "evucina/Padrón MAZDA.pdf",
+      "actual": [],
+      "flags": [
+        "ERROR"
+      ],
+      "primary": null,
+      "durationMs": 23143,
+      "error": "La IA está con mucha demanda, espera unos minutos y reintenta."
+    },
+    {
+      "file": "evucina/VentaProp Las Cabras.pdf",
+      "actual": [
+        {
+          "id": "compraventa-propiedad",
+          "start": 1,
+          "end": 6,
+          "confidence": 0.99,
+          "docdate": "2016-12-22"
+        },
+        {
+          "id": "no-clasificado",
+          "start": 7,
+          "end": 14,
+          "confidence": 1
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 15,
+          "end": 15,
+          "confidence": 0.96,
+          "docdate": "2016-01-01"
+        },
+        {
+          "id": "no-clasificado",
+          "start": 16,
+          "end": 20,
+          "confidence": 1
+        }
+      ],
+      "flags": [],
+      "primary": "compraventa-propiedad",
+      "durationMs": 7432
+    },
+    {
+      "file": "evucina/VentaProp Lo Barnechea.pdf",
+      "actual": [
+        {
+          "id": "no-clasificado",
+          "start": 1,
+          "end": 1,
+          "confidence": 1
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 2,
+          "end": 38,
+          "confidence": 0.82,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 39,
+          "end": 39,
+          "confidence": 0.72,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 40,
+          "end": 42,
+          "confidence": 0.72,
+          "docdate": "2024-09-22"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 43,
+          "end": 43,
+          "confidence": 0.72,
+          "docdate": "2024-09-22"
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 44,
+          "end": 46,
+          "confidence": 0.72,
+          "docdate": "2024-06-27"
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 47,
+          "end": 50,
+          "confidence": 0.72,
+          "docdate": "2024-07-31"
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 51,
+          "end": 52,
+          "confidence": 0.72,
+          "docdate": "2023-01-24"
+        },
+        {
+          "id": "avaluo-fiscal",
+          "start": 53,
+          "end": 71,
+          "confidence": 0.76,
+          "docdate": "2024-05-06"
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 72,
+          "end": 72,
+          "confidence": 0.72,
+          "docdate": "2024-11-21"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 73,
+          "end": 73,
+          "confidence": 0.76,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 74,
+          "end": 75,
+          "confidence": 0.76,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 76,
+          "end": 77,
+          "confidence": 0.76,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 78,
+          "end": 79,
+          "confidence": 0.76,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 80,
+          "end": 81,
+          "confidence": 0.76,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 82,
+          "end": 82,
+          "confidence": 0.76,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 83,
+          "end": 83,
+          "confidence": 0.76,
+          "docdate": "2025-01-03"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 84,
+          "end": 84,
+          "confidence": 0.76,
+          "docdate": "2025-01-03"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 85,
+          "end": 85,
+          "confidence": 0.76,
+          "docdate": "2025-01-03"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 86,
+          "end": 86,
+          "confidence": 0.76,
+          "docdate": "2025-01-03"
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 87,
+          "end": 87,
+          "confidence": 0.76,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 88,
+          "end": 89,
+          "confidence": 0.76,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 90,
+          "end": 91,
+          "confidence": 0.76,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 92,
+          "end": 93,
+          "confidence": 0.76,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 94,
+          "end": 95,
+          "confidence": 0.76,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 96,
+          "end": 97,
+          "confidence": 0.76,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 98,
+          "end": 99,
+          "confidence": 0.76,
+          "docdate": "2024-11-11"
+        }
+      ],
+      "flags": [
+        "LOWCONF"
+      ],
+      "primary": "compraventa-propiedad",
+      "durationMs": 22433
+    },
+    {
+      "file": "evucina/VentaProp Vitacura.pdf",
+      "actual": [
+        {
+          "id": "compraventa-propiedad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2000-11-30"
+        }
+      ],
+      "flags": [],
+      "primary": "compraventa-propiedad",
+      "durationMs": 3057
+    },
+    {
+      "file": "evucina/VentaProp.pdf",
+      "actual": [
+        {
+          "id": "compraventa-propiedad",
+          "start": 1,
+          "end": 2,
+          "confidence": 0.99,
+          "docdate": "2024-03-22"
+        }
+      ],
+      "flags": [],
+      "primary": "compraventa-propiedad",
+      "durationMs": 2889
+    },
+    {
+      "file": "gloria/AFP.pdf",
+      "actual": [
+        {
+          "id": "cotizaciones-afp",
+          "start": 1,
+          "end": 2,
+          "confidence": 0.99,
+          "docdate": "2025-12-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cotizaciones-afp",
+      "durationMs": 2278
+    },
+    {
+      "file": "gloria/Antigüedad Bravo e Izquierdo Limitada..pdf",
+      "actual": [
+        {
+          "id": "certificado-antiguedad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2022-04-01"
+        }
+      ],
+      "flags": [],
+      "primary": "certificado-antiguedad",
+      "durationMs": 84872
+    },
+    {
+      "file": "gloria/Arriendo avenida Walker Martínez 1100, departamento 910 (piso 9), estacionamiento 195 en conjunto bodega 161, comuna de la Florida.pdf",
+      "actual": [
+        {
+          "id": "contrato-arriendo",
+          "start": 1,
+          "end": 3,
+          "confidence": 0.99,
+          "docdate": "2025-10-15"
+        }
+      ],
+      "flags": [],
+      "primary": "contrato-arriendo",
+      "durationMs": 2943
+    },
+    {
+      "file": "gloria/Avalúo.pdf",
+      "actual": [],
+      "flags": [
+        "ERROR"
+      ],
+      "primary": null,
+      "durationMs": 35961,
+      "error": "La IA está con mucha demanda, espera unos minutos y reintenta."
+    },
+    {
+      "file": "gloria/Boletas 2025.pdf",
+      "actual": [],
+      "flags": [
+        "ERROR"
+      ],
+      "primary": null,
+      "durationMs": 34202,
+      "error": "La IA está con mucha demanda, espera unos minutos y reintenta."
+    },
+    {
+      "file": "gloria/Boletas 2026.pdf",
+      "actual": [
+        {
+          "id": "resumen-boletas-sii",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.98,
+          "docdate": "2026-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "resumen-boletas-sii",
+      "durationMs": 3958
+    },
+    {
+      "file": "gloria/CMF.pdf",
+      "actual": [
+        {
+          "id": "informe-deuda",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2026-02-24"
+        },
+        {
+          "id": "no-clasificado",
+          "start": 2,
+          "end": 2,
+          "confidence": 1
+        }
+      ],
+      "flags": [],
+      "primary": "informe-deuda",
+      "durationMs": 3293
+    },
+    {
+      "file": "gloria/Carnet Frente.pdf",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "partId": "front",
+          "docdate": "1981-02-25"
+        }
+      ],
+      "flags": [],
+      "primary": "cedula-identidad",
+      "durationMs": 3733
+    },
+    {
+      "file": "gloria/Carnet Revés.pdf",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.8,
+          "partId": "back",
+          "docdate": null
+        }
+      ],
+      "flags": [
+        "LOWCONF"
+      ],
+      "primary": "cedula-identidad",
+      "durationMs": 3912
+    },
+    {
+      "file": "gloria/Carpeta.pdf",
+      "actual": [
+        {
+          "id": "no-clasificado",
+          "start": 1,
+          "end": 2,
+          "confidence": 1
+        },
+        {
+          "id": "informe-deuda",
+          "start": 3,
+          "end": 3,
+          "confidence": 0.99,
+          "docdate": "2025-12-04"
+        },
+        {
+          "id": "no-clasificado",
+          "start": 4,
+          "end": 15,
+          "confidence": 1
+        }
+      ],
+      "flags": [],
+      "primary": "informe-deuda",
+      "durationMs": 62848
+    },
+    {
+      "file": "gloria/Cartola Banco Itaú Chile.pdf",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2026-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 2087
+    },
+    {
+      "file": "gloria/Cartola Banco Itaú Chile_1.pdf",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2025-10-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 35513
+    },
+    {
+      "file": "gloria/Cartola Banco Itaú Chile_2.pdf",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2026-02-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 62646
+    },
+    {
+      "file": "gloria/Cartola Banco Itaú Chile_3.pdf",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-12-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 2532
+    },
+    {
+      "file": "gloria/Cartola Banco Itaú Chile_4.pdf",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.9,
+          "docdate": "2025-12-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 1816
+    },
+    {
+      "file": "gloria/Cartola Banco Itaú Chile_5.pdf",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.98,
+          "docdate": "2025-10-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 2007
+    },
+    {
+      "file": "gloria/DAI 2024.pdf",
+      "actual": [
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 1,
+          "end": 2,
+          "confidence": 0.98,
+          "docdate": "2024-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "declaracion-anual-impuestos",
+      "durationMs": 47487
+    },
+    {
+      "file": "gloria/DAI 2025.pdf",
+      "actual": [
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 1,
+          "end": 2,
+          "confidence": 1,
+          "docdate": "2025-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "declaracion-anual-impuestos",
+      "durationMs": 2658
+    },
+    {
+      "file": "gloria/Deuda.pdf",
+      "actual": [],
+      "flags": [
+        "ERROR"
+      ],
+      "primary": null,
+      "durationMs": 64730,
+      "error": "La IA está con mucha demanda, espera unos minutos y reintenta."
+    },
+    {
+      "file": "gloria/Inv Santander.pdf",
+      "actual": [
+        {
+          "id": "inversiones",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2026-03-02"
+        }
+      ],
+      "flags": [],
+      "primary": "inversiones",
+      "durationMs": 66728
+    },
+    {
+      "file": "gloria/Inv Scotiabank.pdf",
+      "actual": [
+        {
+          "id": "inversiones",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.82,
+          "docdate": "2026-03-02"
+        }
+      ],
+      "flags": [
+        "LOWCONF"
+      ],
+      "primary": "inversiones",
+      "durationMs": 2775
+    },
+    {
+      "file": "gloria/LiqSueldo 01-2026 Empresa Constructora Bravo e Izquierdo Limitada.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.98,
+          "docdate": "2026-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 38103
+    },
+    {
+      "file": "gloria/Padrón TOYOTA.pdf",
+      "actual": [
+        {
+          "id": "padron",
+          "start": 1,
+          "end": 2,
+          "confidence": 0.99,
+          "docdate": "2024-10-08"
+        }
+      ],
+      "flags": [],
+      "primary": "padron",
+      "durationMs": 2270
+    },
+    {
+      "file": "gloria/VentaProp La Florida.pdf",
+      "actual": [
+        {
+          "id": "compraventa-propiedad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.77,
+          "docdate": "2021-03-25"
+        }
+      ],
+      "flags": [
+        "LOWCONF"
+      ],
+      "primary": "compraventa-propiedad",
+      "durationMs": 2354
+    },
+    {
+      "file": "gloria/VentaProp La Florida_1.pdf",
+      "actual": [
+        {
+          "id": "compraventa-propiedad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.98,
+          "docdate": "2021-03-25"
+        }
+      ],
+      "flags": [],
+      "primary": "compraventa-propiedad",
+      "durationMs": 3306
+    },
+    {
+      "file": "gloria/pago tajeta santander.png",
+      "actual": [],
+      "flags": [
+        "EMPTY"
+      ],
+      "primary": null,
+      "durationMs": 3054
+    },
+    {
+      "file": "miguel/AFP.pdf",
+      "actual": [
+        {
+          "id": "cotizaciones-afp",
+          "start": 1,
+          "end": 2,
+          "confidence": 0.98,
+          "docdate": "2026-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cotizaciones-afp",
+      "durationMs": 3423
+    },
+    {
+      "file": "miguel/Antigüedad Geotec Boyles Bros S.A..pdf",
+      "actual": [
+        {
+          "id": "certificado-antiguedad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2026-02-17"
+        }
+      ],
+      "flags": [],
+      "primary": "certificado-antiguedad",
+      "durationMs": 32693
+    },
+    {
+      "file": "miguel/CMF.pdf",
+      "actual": [
+        {
+          "id": "informe-deuda",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-02-06"
+        }
+      ],
+      "flags": [],
+      "primary": "informe-deuda",
+      "durationMs": 35056
+    },
+    {
+      "file": "miguel/Carnet Frente.png",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "confidence": 0.99,
+          "partId": "front",
+          "docdate": "1991-08-10"
+        }
+      ],
+      "flags": [],
+      "primary": "cedula-identidad",
+      "durationMs": 2536
+    },
+    {
+      "file": "miguel/Carnet Revés.png",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "confidence": 0.85,
+          "partId": "front"
+        }
+      ],
+      "flags": [],
+      "primary": "cedula-identidad",
+      "durationMs": 31553
+    },
+    {
+      "file": "miguel/Deuda.pdf",
+      "actual": [
+        {
+          "id": "informe-credito",
+          "start": 1,
+          "end": 2,
+          "confidence": 0.9,
+          "docdate": "2026-03-02"
+        }
+      ],
+      "flags": [],
+      "primary": "informe-credito",
+      "durationMs": 25817
+    },
+    {
+      "file": "miguel/LiqSueldo 01-2026 Geotec Boyles Bros S.A..pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2026-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 4053
+    },
+    {
+      "file": "miguel/LiqSueldo 08-2025 Geotec Boyles Bros S.A..pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2025-08-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 3199
+    },
+    {
+      "file": "miguel/LiqSueldo 09-2025 Geotec Boyles Bros S.A..pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-09-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 27850
+    },
+    {
+      "file": "miguel/LiqSueldo 10-2025 Geotec Boyles Bros S.A..pdf",
+      "actual": [],
+      "flags": [
+        "ERROR"
+      ],
+      "primary": null,
+      "durationMs": 28813,
+      "error": "La IA está con mucha demanda, espera unos minutos y reintenta."
+    },
+    {
+      "file": "miguel/LiqSueldo 11-2025 Geotec Boyles Bros S.A..pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2025-11-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 3386
+    },
+    {
+      "file": "miguel/LiqSueldo 12-2025 Geotec Boyles Bros S.A..pdf",
+      "actual": [],
+      "flags": [
+        "ERROR"
+      ],
+      "primary": null,
+      "durationMs": 33599,
+      "error": "La IA está con mucha demanda, espera unos minutos y reintenta."
+    },
+    {
+      "file": "miguel/NoMatrimonio.pdf",
+      "actual": [
+        {
+          "id": "certificado-no-matrimonio",
+          "start": 1,
+          "end": 1,
+          "confidence": 1,
+          "docdate": "2026-02-17"
+        }
+      ],
+      "flags": [],
+      "primary": "certificado-no-matrimonio",
+      "durationMs": 35350
+    },
+    {
+      "file": "yulian/YULIAN GARCIA - Codeudor/AFP.pdf",
+      "actual": [
+        {
+          "id": "cotizaciones-afp",
+          "start": 1,
+          "end": 2,
+          "confidence": 0.99,
+          "docdate": "2025-04-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cotizaciones-afp",
+      "durationMs": 3115
+    },
+    {
+      "file": "yulian/YULIAN GARCIA - Codeudor/Antigüedad Bodealert, Seguridad Privada SpA.pdf",
+      "actual": [
+        {
+          "id": "certificado-antiguedad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2025-06-01"
+        }
+      ],
+      "flags": [],
+      "primary": "certificado-antiguedad",
+      "durationMs": 23168
+    },
+    {
+      "file": "yulian/YULIAN GARCIA - Codeudor/CMF.pdf",
+      "actual": [],
+      "flags": [
+        "ERROR"
+      ],
+      "primary": null,
+      "durationMs": 24374,
+      "error": "La IA está con mucha demanda, espera unos minutos y reintenta."
+    },
+    {
+      "file": "yulian/YULIAN GARCIA - Codeudor/Carnet Frente.png",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "confidence": 0.86,
+          "partId": "front",
+          "docdate": "1991-10-05"
+        }
+      ],
+      "flags": [],
+      "primary": "cedula-identidad",
+      "durationMs": 2621
+    },
+    {
+      "file": "yulian/YULIAN GARCIA - Codeudor/Carnet Revés.png",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "confidence": 0.8,
+          "partId": null,
+          "docdate": null
+        }
+      ],
+      "flags": [
+        "LOWCONF"
+      ],
+      "primary": "cedula-identidad",
+      "durationMs": 45520
+    },
+    {
+      "file": "yulian/YULIAN GARCIA - Codeudor/LiqSueldo 01-2025 BODEALERT, SEGURIDAD PRIVADA SPA.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 26499
+    },
+    {
+      "file": "yulian/YULIAN GARCIA - Codeudor/LiqSueldo 02-2025 BODEALERT, SEGURIDAD PRIVADA SpA.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2025-02-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 2994
+    },
+    {
+      "file": "yulian/YULIAN GARCIA - Codeudor/LiqSueldo 03-2025 BODEALERT, SEGURIDAD PRIVADA SpA.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2025-03-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 25543
+    },
+    {
+      "file": "yulian/YULIAN GARCIA - Codeudor/LiqSueldo 04-2025 BODEALERT, SEGURIDAD PRIVADA SpA.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-04-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 32664
+    },
+    {
+      "file": "yulian/YULIAN GARCIA - Codeudor/LiqSueldo 05-2025 BODEALERT, SEGURIDAD PRIVADA SPA.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2025-05-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 2649
+    },
+    {
+      "file": "yulian/YULIAN GARCIA - Codeudor/LiqSueldo 12-2024 BODEALERT, SEGURIDAD PRIVADA SPA.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2024-12-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 2677
+    },
+    {
+      "file": "yulian/YULIAN GARCIA - Codeudor/NoMatrimonio.pdf",
+      "actual": [
+        {
+          "id": "certificado-no-matrimonio",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.9,
+          "docdate": "2025-06-13"
+        }
+      ],
+      "flags": [],
+      "primary": "certificado-no-matrimonio",
+      "durationMs": 3128
+    },
+    {
+      "file": "yulian/YULIAN GARCIA/AFP.pdf",
+      "actual": [
+        {
+          "id": "cotizaciones-afp",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-05-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cotizaciones-afp",
+      "durationMs": 20439
+    },
+    {
+      "file": "yulian/YULIAN GARCIA/Antigüedad COMERCIAL UNDER SPA.pdf",
+      "actual": [
+        {
+          "id": "certificado-antiguedad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-06-16"
+        }
+      ],
+      "flags": [],
+      "primary": "certificado-antiguedad",
+      "durationMs": 2459
+    },
+    {
+      "file": "yulian/YULIAN GARCIA/CMF.pdf",
+      "actual": [
+        {
+          "id": "informe-deuda",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-06-16"
+        }
+      ],
+      "flags": [],
+      "primary": "informe-deuda",
+      "durationMs": 28139
+    },
+    {
+      "file": "yulian/YULIAN GARCIA/Carnet Frente.png",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "confidence": 0.9,
+          "partId": "front",
+          "docdate": null
+        }
+      ],
+      "flags": [],
+      "primary": "cedula-identidad",
+      "durationMs": 1887
+    },
+    {
+      "file": "yulian/YULIAN GARCIA/Carnet Revés.png",
+      "actual": [
+        {
+          "id": "cedula-identidad",
+          "confidence": 0.8,
+          "partId": "back"
+        }
+      ],
+      "flags": [
+        "LOWCONF"
+      ],
+      "primary": "cedula-identidad",
+      "durationMs": 26611
+    },
+    {
+      "file": "yulian/YULIAN GARCIA/Cartola Santander.pdf",
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 3,
+          "confidence": 0.88,
+          "docdate": "2025-05-01"
+        }
+      ],
+      "flags": [],
+      "primary": "cartola-banco",
+      "durationMs": 31549
+    },
+    {
+      "file": "yulian/YULIAN GARCIA/LiqSueldo 01-2025 COMERCIAL UNDER SPA.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2025-01-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 2384
+    },
+    {
+      "file": "yulian/YULIAN GARCIA/LiqSueldo 02-2025 COMERCIAL UNDER SPA.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2025-02-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 2296
+    },
+    {
+      "file": "yulian/YULIAN GARCIA/LiqSueldo 03-2025 COMERCIAL UNDER SPA.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2025-03-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 49648
+    },
+    {
+      "file": "yulian/YULIAN GARCIA/LiqSueldo 04-2025 COMERCIAL UNDER SPA.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2025-04-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 2609
+    },
+    {
+      "file": "yulian/YULIAN GARCIA/LiqSueldo 05-2025 COMERCIAL UNDER SPA.pdf",
+      "actual": [],
+      "flags": [
+        "ERROR"
+      ],
+      "primary": null,
+      "durationMs": 29481,
+      "error": "La IA está con mucha demanda, espera unos minutos y reintenta."
+    },
+    {
+      "file": "yulian/YULIAN GARCIA/LiqSueldo 12-2024 COMERCIAL UNDER SPA.pdf",
+      "actual": [
+        {
+          "id": "liquidaciones-sueldo",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.99,
+          "docdate": "2024-12-01"
+        }
+      ],
+      "flags": [],
+      "primary": "liquidaciones-sueldo",
+      "durationMs": 2400
+    },
+    {
+      "file": "yulian/YULIAN GARCIA/NoMatrimonio.pdf",
+      "actual": [
+        {
+          "id": "certificado-no-matrimonio",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.98,
+          "docdate": "2024-10-07"
+        }
+      ],
+      "flags": [],
+      "primary": "certificado-no-matrimonio",
+      "durationMs": 3215
+    }
+  ]
+}

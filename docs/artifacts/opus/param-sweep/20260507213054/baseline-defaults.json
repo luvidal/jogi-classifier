@@ -1,0 +1,663 @@
+{
+  "runAt": "2026-05-07T21:32:01.513Z",
+  "label": "baseline-defaults",
+  "results": [
+    {
+      "file": "_reqdocs/cta rara.png",
+      "source": "_reqdocs/CLASSIFICATION.md",
+      "expected": [
+        {
+          "id": "cuenta-ahorro"
+        }
+      ],
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "confidence": 0.8,
+          "docdate": "2024-10-01"
+        }
+      ],
+      "pass": false,
+      "durationMs": 3696,
+      "error": "missing cuenta-ahorro; rogue cartola-banco"
+    },
+    {
+      "file": "evaluacion/DAI 2024.pdf",
+      "source": "evaluacion/CLASSIFICATION.md",
+      "expected": [
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "actual": [
+        {
+          "id": "resumen-boletas-sii",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.93,
+          "docdate": "2026-01-01"
+        }
+      ],
+      "pass": false,
+      "durationMs": 3210,
+      "error": "missing declaracion-anual-impuestos@1..1; rogue resumen-boletas-sii@1..1"
+    },
+    {
+      "file": "evaluacion/Inv Santander (1).pdf",
+      "source": "evaluacion/CLASSIFICATION.md",
+      "expected": [
+        {
+          "id": "inversiones",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "actual": [
+        {
+          "id": "compraventa-propiedad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2016-12-22"
+        }
+      ],
+      "pass": false,
+      "durationMs": 2140,
+      "error": "missing inversiones@1..1; rogue compraventa-propiedad@1..1"
+    },
+    {
+      "file": "evaluacion/Inv Santander.pdf",
+      "source": "evaluacion/CLASSIFICATION.md",
+      "expected": [
+        {
+          "id": "inversiones",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "actual": [
+        {
+          "id": "compraventa-propiedad",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.96,
+          "docdate": "2016-12-22"
+        }
+      ],
+      "pass": false,
+      "durationMs": 2226,
+      "error": "missing inversiones@1..1; rogue compraventa-propiedad@1..1"
+    },
+    {
+      "file": "evaluacion/VentaProp Lo Barnechea.pdf",
+      "source": "evaluacion/CLASSIFICATION.md",
+      "expected": [
+        {
+          "id": "compraventa-propiedad",
+          "start": 1,
+          "end": 99
+        }
+      ],
+      "actual": [
+        {
+          "id": "no-clasificado",
+          "start": 1,
+          "end": 1,
+          "confidence": 1
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 2,
+          "end": 38,
+          "confidence": 0.99,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "cotizaciones-afp",
+          "start": 39,
+          "end": 39,
+          "confidence": 0.5,
+          "docdate": "2024-09-22"
+        },
+        {
+          "id": "cotizaciones-afp",
+          "start": 40,
+          "end": 43,
+          "confidence": 0.5,
+          "docdate": "2024-09-22"
+        },
+        {
+          "id": "carton-ds1",
+          "start": 44,
+          "end": 46,
+          "confidence": 0.98
+        },
+        {
+          "id": "carton-ds1",
+          "start": 47,
+          "end": 50,
+          "confidence": 0.98
+        },
+        {
+          "id": "carton-ds1",
+          "start": 51,
+          "end": 52,
+          "confidence": 0.98
+        },
+        {
+          "id": "avaluo-fiscal",
+          "start": 53,
+          "end": 71,
+          "confidence": 0.99,
+          "docdate": "2024-05-06"
+        },
+        {
+          "id": "resumen-boletas-sii",
+          "start": 72,
+          "end": 72,
+          "confidence": 0.98,
+          "docdate": "2024-11-21"
+        },
+        {
+          "id": "cert-nacimiento-hijo",
+          "start": 73,
+          "end": 73,
+          "confidence": 0.97,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 74,
+          "end": 75,
+          "confidence": 0.96,
+          "docdate": "2024-12-27"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 76,
+          "end": 77,
+          "confidence": 0.96,
+          "docdate": "2024-12-27"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 78,
+          "end": 79,
+          "confidence": 0.96,
+          "docdate": "2024-12-27"
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 80,
+          "end": 81,
+          "confidence": 0.96,
+          "docdate": "2024-12-27"
+        },
+        {
+          "id": "no-clasificado",
+          "start": 82,
+          "end": 82,
+          "confidence": 1
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 83,
+          "end": 83,
+          "confidence": 0.99,
+          "docdate": "2025-01-03"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 84,
+          "end": 84,
+          "confidence": 0.99,
+          "docdate": "2025-01-03"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 85,
+          "end": 85,
+          "confidence": 0.99,
+          "docdate": "2025-01-03"
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 86,
+          "end": 87,
+          "confidence": 0.99,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 88,
+          "end": 89,
+          "confidence": 0.99,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 90,
+          "end": 91,
+          "confidence": 0.99,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 92,
+          "end": 93,
+          "confidence": 0.99,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 94,
+          "end": 95,
+          "confidence": 0.99,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 96,
+          "end": 97,
+          "confidence": 0.99,
+          "docdate": "2025-01-02"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 98,
+          "end": 99,
+          "confidence": 0.99,
+          "docdate": "2025-01-02"
+        }
+      ],
+      "pass": false,
+      "durationMs": 17314,
+      "error": "missing compraventa-propiedad@1..99; rogue cotizaciones-afp@39..39; rogue cotizaciones-afp@40..43; rogue carton-ds1@44..46; rogue carton-ds1@47..50; rogue carton-ds1@51..52; rogue avaluo-fiscal@53..71; rogue resumen-boletas-sii@72..72; rogue cert-nacimiento-hijo@73..73; rogue declaracion-anual-impuestos@74..75; rogue declaracion-anual-impuestos@76..77; rogue declaracion-anual-impuestos@78..79; rogue declaracion-anual-impuestos@80..81; rogue deuda-hipotecaria@83..83; rogue deuda-hipotecaria@84..84; rogue deuda-hipotecaria@85..85; rogue deuda-hipotecaria@96..97; rogue deuda-hipotecaria@98..99"
+    },
+    {
+      "file": "evucina/Consumo Scotiabank.png",
+      "source": "evucina/CLASSIFICATION.md",
+      "expected": [
+        {
+          "id": "deuda-consumo"
+        }
+      ],
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "confidence": 0.9
+        }
+      ],
+      "pass": false,
+      "durationMs": 1681,
+      "error": "missing deuda-consumo; rogue cartola-banco"
+    },
+    {
+      "file": "evucina/Hipo Banco.pdf",
+      "source": "evucina/CLASSIFICATION.md",
+      "expected": [
+        {
+          "id": "no-clasificado",
+          "start": 1,
+          "end": 1
+        }
+      ],
+      "actual": [
+        {
+          "id": "deuda-hipotecaria",
+          "start": 1,
+          "end": 1,
+          "confidence": 0.8,
+          "docdate": null
+        }
+      ],
+      "pass": false,
+      "durationMs": 2143,
+      "error": "missing no-clasificado@1..1; rogue deuda-hipotecaria@1..1"
+    },
+    {
+      "file": "evucina/VentaProp Las Cabras.pdf",
+      "source": "evucina/CLASSIFICATION.md",
+      "expected": [
+        {
+          "id": "compraventa-propiedad",
+          "start": 1,
+          "end": 20
+        }
+      ],
+      "actual": [
+        {
+          "id": "compraventa-propiedad",
+          "start": 1,
+          "end": 9,
+          "confidence": 0.93,
+          "docdate": "2016-12-22"
+        },
+        {
+          "id": "no-clasificado",
+          "start": 10,
+          "end": 12,
+          "confidence": 1
+        },
+        {
+          "id": "inversiones",
+          "start": 13,
+          "end": 13,
+          "confidence": 0.97,
+          "docdate": "2016-12-22"
+        },
+        {
+          "id": "no-clasificado",
+          "start": 14,
+          "end": 14,
+          "confidence": 1
+        },
+        {
+          "id": "declaracion-anual-impuestos",
+          "start": 15,
+          "end": 17,
+          "confidence": 0.78,
+          "docdate": "2016-01-01"
+        },
+        {
+          "id": "no-clasificado",
+          "start": 18,
+          "end": 18,
+          "confidence": 1
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 19,
+          "end": 19,
+          "confidence": 0.94,
+          "docdate": "2016-12-23"
+        },
+        {
+          "id": "no-clasificado",
+          "start": 20,
+          "end": 20,
+          "confidence": 1
+        }
+      ],
+      "pass": false,
+      "durationMs": 6122,
+      "error": "missing compraventa-propiedad@1..20; rogue inversiones@13..13; rogue declaracion-anual-impuestos@15..17; rogue deuda-hipotecaria@19..19"
+    },
+    {
+      "file": "evucina/VentaProp Lo Barnechea.pdf",
+      "source": "evucina/CLASSIFICATION.md",
+      "expected": [
+        {
+          "id": "compraventa-propiedad",
+          "start": 1,
+          "end": 99
+        }
+      ],
+      "actual": [
+        {
+          "id": "no-clasificado",
+          "start": 1,
+          "end": 1,
+          "confidence": 1
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 2,
+          "end": 38,
+          "confidence": 0.99,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 39,
+          "end": 43,
+          "confidence": 0.96,
+          "docdate": "2024-09-22"
+        },
+        {
+          "id": "certificado-antiguedad",
+          "start": 44,
+          "end": 46,
+          "confidence": 0.81,
+          "docdate": "2024-06-27"
+        },
+        {
+          "id": "certificado-antiguedad",
+          "start": 47,
+          "end": 50,
+          "confidence": 0.9,
+          "docdate": "2024-07-31"
+        },
+        {
+          "id": "certificado-antiguedad",
+          "start": 51,
+          "end": 52,
+          "confidence": 0.9,
+          "docdate": "2023-01-24"
+        },
+        {
+          "id": "avaluo-fiscal",
+          "start": 53,
+          "end": 71,
+          "confidence": 0.98,
+          "docdate": "2024-05-06"
+        },
+        {
+          "id": "resumen-boletas-sii",
+          "start": 72,
+          "end": 72,
+          "confidence": 0.89,
+          "docdate": "2024-11-21"
+        },
+        {
+          "id": "certificado-no-matrimonio",
+          "start": 73,
+          "end": 73,
+          "confidence": 0.9,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "resumen-boletas-sii",
+          "start": 74,
+          "end": 75,
+          "confidence": 0.9,
+          "docdate": "2024-11-21"
+        },
+        {
+          "id": "resumen-boletas-sii",
+          "start": 76,
+          "end": 77,
+          "confidence": 0.9,
+          "docdate": "2024-11-21"
+        },
+        {
+          "id": "resumen-boletas-sii",
+          "start": 78,
+          "end": 79,
+          "confidence": 0.9,
+          "docdate": "2024-11-21"
+        },
+        {
+          "id": "resumen-boletas-sii",
+          "start": 80,
+          "end": 81,
+          "confidence": 0.9,
+          "docdate": "2024-11-21"
+        },
+        {
+          "id": "informe-deuda",
+          "start": 82,
+          "end": 82,
+          "confidence": 0.84,
+          "docdate": "2025-01-03"
+        },
+        {
+          "id": "informe-deuda",
+          "start": 83,
+          "end": 83,
+          "confidence": 0.84,
+          "docdate": "2025-01-03"
+        },
+        {
+          "id": "informe-deuda",
+          "start": 84,
+          "end": 84,
+          "confidence": 0.84,
+          "docdate": "2025-01-03"
+        },
+        {
+          "id": "informe-deuda",
+          "start": 85,
+          "end": 85,
+          "confidence": 0.84,
+          "docdate": "2025-01-03"
+        },
+        {
+          "id": "informe-deuda",
+          "start": 86,
+          "end": 86,
+          "confidence": 0.84,
+          "docdate": "2025-01-03"
+        },
+        {
+          "id": "informe-deuda",
+          "start": 87,
+          "end": 87,
+          "confidence": 0.84,
+          "docdate": "2025-01-03"
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 88,
+          "end": 89,
+          "confidence": 0.96,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 90,
+          "end": 91,
+          "confidence": 0.96,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 92,
+          "end": 93,
+          "confidence": 0.96,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "compraventa-propiedad",
+          "start": 94,
+          "end": 95,
+          "confidence": 0.96,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 96,
+          "end": 97,
+          "confidence": 0.96,
+          "docdate": "2024-11-11"
+        },
+        {
+          "id": "deuda-hipotecaria",
+          "start": 98,
+          "end": 99,
+          "confidence": 0.96,
+          "docdate": "2024-11-11"
+        }
+      ],
+      "pass": false,
+      "durationMs": 18699,
+      "error": "missing compraventa-propiedad@1..99; rogue deuda-hipotecaria@39..43; rogue certificado-antiguedad@44..46; rogue certificado-antiguedad@47..50; rogue certificado-antiguedad@51..52; rogue avaluo-fiscal@53..71; rogue resumen-boletas-sii@72..72; rogue certificado-no-matrimonio@73..73; rogue resumen-boletas-sii@74..75; rogue resumen-boletas-sii@76..77; rogue resumen-boletas-sii@78..79; rogue resumen-boletas-sii@80..81; rogue informe-deuda@82..82; rogue informe-deuda@83..83; rogue informe-deuda@84..84; rogue informe-deuda@85..85; rogue informe-deuda@86..86; rogue informe-deuda@87..87; rogue deuda-hipotecaria@96..97; rogue deuda-hipotecaria@98..99"
+    },
+    {
+      "file": "gloria/Carpeta.pdf",
+      "source": "gloria/CLASSIFICATION.md",
+      "expected": [
+        {
+          "id": "no-clasificado",
+          "start": 1,
+          "end": 15
+        }
+      ],
+      "actual": [
+        {
+          "id": "no-clasificado",
+          "start": 1,
+          "end": 2,
+          "confidence": 1
+        },
+        {
+          "id": "informe-deuda",
+          "start": 3,
+          "end": 3,
+          "confidence": 0.58,
+          "docdate": "2025-12-04"
+        },
+        {
+          "id": "no-clasificado",
+          "start": 4,
+          "end": 6,
+          "confidence": 1
+        },
+        {
+          "id": "deuda-consumo",
+          "start": 7,
+          "end": 7,
+          "confidence": 0.78,
+          "docdate": "2025-11-21"
+        },
+        {
+          "id": "no-clasificado",
+          "start": 8,
+          "end": 11,
+          "confidence": 1
+        },
+        {
+          "id": "contrato-arriendo",
+          "start": 12,
+          "end": 12,
+          "confidence": 0.58,
+          "docdate": "2025-03-20"
+        },
+        {
+          "id": "no-clasificado",
+          "start": 13,
+          "end": 15,
+          "confidence": 1
+        }
+      ],
+      "pass": false,
+      "durationMs": 7336,
+      "error": "missing no-clasificado@1..15; rogue informe-deuda@3..3; rogue deuda-consumo@7..7; rogue contrato-arriendo@12..12"
+    },
+    {
+      "file": "yulian/YULIAN GARCIA/Cartola Santander.pdf",
+      "source": "yulian/YULIAN GARCIA/CLASSIFICATION.md",
+      "expected": [
+        {
+          "id": "deuda-consumo",
+          "start": 1,
+          "end": 3
+        }
+      ],
+      "actual": [
+        {
+          "id": "cartola-banco",
+          "start": 1,
+          "end": 3,
+          "confidence": 0.96,
+          "docdate": "2025-05-01"
+        }
+      ],
+      "pass": false,
+      "durationMs": 2860,
+      "error": "missing deuda-consumo@1..3; rogue cartola-banco@1..3"
+    }
+  ]
+}

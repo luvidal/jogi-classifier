@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>@jogi/classifier</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fa;
+      --panel: #ffffff;
+      --line: #d7dce2;
+      --text: #17202a;
+      --muted: #657282;
+      --accent: #0f766e;
+      --accent-2: #134e4a;
+      --danger: #b42318;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    main {
+      display: grid;
+      grid-template-columns: minmax(320px, 420px) 1fr;
+      min-height: 100vh;
+    }
+    aside {
+      background: var(--panel);
+      border-right: 1px solid var(--line);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    h1 {
+      font-size: 20px;
+      line-height: 1.2;
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+    label {
+      display: grid;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    input, select, button {
+      width: 100%;
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+      padding: 8px 10px;
+    }
+    button {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .dropzone {
+      border: 1px dashed #8aa2b5;
+      border-radius: 8px;
+      min-height: 180px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 18px;
+      color: var(--muted);
+      background: #fbfcfd;
+    }
+    .dropzone[data-active="true"] {
+      border-color: var(--accent);
+      background: #eefbf8;
+      color: var(--accent-2);
+    }
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .files {
+      display: grid;
+      gap: 6px;
+      max-height: 220px;
+      overflow: auto;
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+      font-size: 13px;
+    }
+    .file {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 8px;
+      background: #fff;
+    }
+    .file span:first-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    section {
+      padding: 20px;
+      min-width: 0;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 12px;
+    }
+    .status {
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .error { color: var(--danger); }
+    pre {
+      margin: 0;
+      min-height: 0;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #0f1720;
+      color: #dce8ef;
+      padding: 14px;
+      font: 13px/1.45 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    @media (max-width: 820px) {
+      main { grid-template-columns: 1fr; }
+      aside { border-right: 0; border-bottom: 1px solid var(--line); }
+      section { min-height: 60vh; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <aside>
+      <h1>@jogi/classifier</h1>
+      <div id="dropzone" class="dropzone" tabindex="0">
+        <div>
+          <strong>Drop files or folders</strong>
+          <div>PDF, PNG, JPG, WebP</div>
+        </div>
+      </div>
+      <div class="toolbar">
+        <label>
+          Files
+          <input id="fileInput" type="file" multiple accept=".pdf,.png,.jpg,.jpeg,.webp,application/pdf,image/png,image/jpeg,image/webp">
+        </label>
+        <label>
+          Folder
+          <input id="folderInput" type="file" multiple webkitdirectory>
+        </label>
+      </div>
+      <label>
+        Model
+        <input id="model" value="gemini-2.5-flash">
+      </label>
+      <label>
+        Mode
+        <select id="mode">
+          <option value="default">baseline-defaults</option>
+          <option value="cheap">deterministic-cheap</option>
+          <option value="think">deterministic-think-1024</option>
+        </select>
+      </label>
+      <button id="classify" disabled>Classify</button>
+      <div id="files" class="files"></div>
+    </aside>
+    <section>
+      <div class="status">
+        <span id="status">No files selected</span>
+        <span id="count"></span>
+      </div>
+      <pre id="output">{}</pre>
+    </section>
+  </main>
+  <script>
+    const state = { files: [] }
+    const dropzone = document.getElementById('dropzone')
+    const fileInput = document.getElementById('fileInput')
+    const folderInput = document.getElementById('folderInput')
+    const classifyButton = document.getElementById('classify')
+    const filesEl = document.getElementById('files')
+    const output = document.getElementById('output')
+    const statusEl = document.getElementById('status')
+    const countEl = document.getElementById('count')
+    const modelEl = document.getElementById('model')
+    const modeEl = document.getElementById('mode')
+
+    const generationConfigs = {
+      default: undefined,
+      cheap: { temperature: 0, topP: 0.1, seed: 1, candidateCount: 1, thinkingConfig: { thinkingBudget: 0 } },
+      think: { temperature: 0, topP: 0.1, seed: 1, candidateCount: 1, thinkingConfig: { thinkingBudget: 1024 } }
+    }
+
+    function setStatus(text, error = false) {
+      statusEl.textContent = text
+      statusEl.className = error ? 'error' : ''
+    }
+
+    function renderFiles() {
+      filesEl.innerHTML = ''
+      countEl.textContent = state.files.length ? `${state.files.length} selected` : ''
+      classifyButton.disabled = state.files.length === 0
+      setStatus(state.files.length ? 'Ready' : 'No files selected')
+      for (const file of state.files) {
+        const row = document.createElement('div')
+        row.className = 'file'
+        const name = document.createElement('span')
+        name.textContent = file.webkitRelativePath || file.relativePath || file.name
+        const size = document.createElement('span')
+        size.textContent = `${Math.ceil(file.size / 1024)} KB`
+        row.append(name, size)
+        filesEl.append(row)
+      }
+    }
+
+    function addFiles(files) {
+      const supported = [...files].filter(file => /\.(pdf|png|jpe?g|webp)$/i.test(file.name))
+      state.files = supported
+      renderFiles()
+    }
+
+    async function fileToPayload(file) {
+      const bytes = new Uint8Array(await file.arrayBuffer())
+      let binary = ''
+      for (const b of bytes) binary += String.fromCharCode(b)
+      return {
+        name: file.name,
+        path: file.webkitRelativePath || file.relativePath || file.name,
+        type: file.type,
+        data: btoa(binary)
+      }
+    }
+
+    async function classify() {
+      classifyButton.disabled = true
+      setStatus('Classifying...')
+      output.textContent = '{}'
+      try {
+        const files = []
+        for (const file of state.files) files.push(await fileToPayload(file))
+        const body = {
+          model: modelEl.value.trim() || undefined,
+          generationConfig: generationConfigs[modeEl.value],
+          files
+        }
+        const res = await fetch('/api/classify', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(body)
+        })
+        const json = await res.json()
+        output.textContent = JSON.stringify(json, null, 2)
+        setStatus(res.ok ? 'Done' : 'Failed', !res.ok)
+      } catch (err) {
+        output.textContent = String(err && err.message ? err.message : err)
+        setStatus('Failed', true)
+      } finally {
+        classifyButton.disabled = state.files.length === 0
+      }
+    }
+
+    function readEntries(items) {
+      const entries = [...items].map(item => item.webkitGetAsEntry && item.webkitGetAsEntry()).filter(Boolean)
+      if (!entries.length) return Promise.resolve([])
+      const files = []
+      const walk = entry => new Promise(resolve => {
+        if (entry.isFile) {
+          entry.file(file => {
+            file.relativePath = entry.fullPath.replace(/^\//, '')
+            files.push(file)
+            resolve()
+          })
+        } else if (entry.isDirectory) {
+          const reader = entry.createReader()
+          const batch = () => reader.readEntries(async children => {
+            if (!children.length) return resolve()
+            for (const child of children) await walk(child)
+            batch()
+          })
+          batch()
+        } else {
+          resolve()
+        }
+      })
+      return Promise.all(entries.map(walk)).then(() => files)
+    }
+
+    fileInput.addEventListener('change', () => addFiles(fileInput.files || []))
+    folderInput.addEventListener('change', () => addFiles(folderInput.files || []))
+    classifyButton.addEventListener('click', classify)
+
+    for (const eventName of ['dragenter', 'dragover']) {
+      dropzone.addEventListener(eventName, event => {
+        event.preventDefault()
+        dropzone.dataset.active = 'true'
+      })
+    }
+    for (const eventName of ['dragleave', 'drop']) {
+      dropzone.addEventListener(eventName, event => {
+        event.preventDefault()
+        dropzone.dataset.active = 'false'
+      })
+    }
+    dropzone.addEventListener('drop', async event => {
+      const entryFiles = await readEntries(event.dataTransfer.items || [])
+      addFiles(entryFiles.length ? entryFiles : event.dataTransfer.files || [])
+    })
+  </script>
+</body>
+</html>

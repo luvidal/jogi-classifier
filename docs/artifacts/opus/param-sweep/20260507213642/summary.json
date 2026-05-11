@@ -1,0 +1,59 @@
+{
+  "runAt": "2026-05-07T21:40:33.394Z",
+  "full": false,
+  "files": [
+    "_reqdocs/cta rara.png",
+    "evaluacion/DAI 2024.pdf",
+    "evaluacion/Inv Santander (1).pdf",
+    "evaluacion/Inv Santander.pdf",
+    "evaluacion/VentaProp Lo Barnechea.pdf",
+    "evucina/Consumo Scotiabank.png",
+    "evucina/Hipo Banco.pdf",
+    "evucina/VentaProp Las Cabras.pdf",
+    "evucina/VentaProp Lo Barnechea.pdf",
+    "gloria/Carpeta.pdf",
+    "yulian/YULIAN GARCIA/Cartola Santander.pdf"
+  ],
+  "summary": [
+    {
+      "label": "baseline-defaults",
+      "generationConfig": null,
+      "passCount": 2,
+      "total": 11,
+      "passRate": 0.18181818181818182,
+      "outPath": "/Users/avd/GitHub/jogi/tests/opus/out/param-sweep/20260507213642/baseline-defaults.json"
+    },
+    {
+      "label": "deterministic-cheap",
+      "generationConfig": {
+        "temperature": 0,
+        "topP": 0.1,
+        "seed": 1,
+        "candidateCount": 1,
+        "thinkingConfig": {
+          "thinkingBudget": 0
+        }
+      },
+      "passCount": 2,
+      "total": 11,
+      "passRate": 0.18181818181818182,
+      "outPath": "/Users/avd/GitHub/jogi/tests/opus/out/param-sweep/20260507213642/deterministic-cheap.json"
+    },
+    {
+      "label": "deterministic-think-1024",
+      "generationConfig": {
+        "temperature": 0,
+        "topP": 0.1,
+        "seed": 1,
+        "candidateCount": 1,
+        "thinkingConfig": {
+          "thinkingBudget": 1024
+        }
+      },
+      "passCount": 3,
+      "total": 11,
+      "passRate": 0.2727272727272727,
+      "outPath": "/Users/avd/GitHub/jogi/tests/opus/out/param-sweep/20260507213642/deterministic-think-1024.json"
+    }
+  ]
+}
