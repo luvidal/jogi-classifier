@@ -56,6 +56,8 @@ Consumed by Jogi via GitHub SHA pin (never `#main`, never `file:`):
 
 Host wiring should live in a server-only parent init such as `lib/server/docsinit.ts` (`configureClassifier({ doctypes, geminiCall })`) and be gated behind a rollout env flag in `lib/domain/upload/classify.ts`. Do not wire classifier auth from shared/browser-reachable doctype modules. If the host uses `GEMINI_API_KEY` or Vertex auth, wrap it inside the host's `geminiCall`; do not pass raw secrets to this library.
 
+When bumping the pin in jogi, use `npm run update:classifier` (or plain `npm install @jogi/classifier@github:luvidal/jogi-classifier#<sha>` with no extra flags). Do **not** pass `--legacy-peer-deps`: it switches npm to a resolution algorithm that prunes ~750 lines of transitive deps (webpack, terser, ajv, @webassemblyjs/*, etc.) from `package-lock.json`, which then breaks Render's `npm ci` with EUSAGE / "Missing: ... from lock file" and crashes the deploy at build time. This bug bit twice on May 11 (fb38e48a and 9cab162f); the fix is to restore the lockfile from the last known-good commit and re-install without the flag.
+
 ## Behavior bar
 
 - Unit tests must stay green without API credentials.

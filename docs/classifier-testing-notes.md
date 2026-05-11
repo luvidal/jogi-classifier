@@ -362,3 +362,35 @@ Full corpus (`out/validation-tune1-20260511-160556.json`): `177/197` strict pass
 - `-1 yulian/YULIAN GARCIA - Codeudor/Carnet Frente.png` — **groundtruth correct, model over-detects**. The PNG has some back-of-cedula content visible at the bottom (a second signature, "PUENTE ALTO" strip, small barcode, fingerprint), but product policy is to treat this file as a front-only cedula (filename + dominant content). The model returned two rows (`front` + `back`). Pro non-determinism between runs made it look like a regression (the prior run happened to return one row). Not addressed by this iteration; a future cedula-rule tightening could require both faces to be **fully** visible (full back panel, not incidental back artifacts) before returning two rows.
 
 Net: the rule is a clean win — target case fixed, no real regression. Shippable.
+
+## May 11 Deploy Failure — `--legacy-peer-deps` Lockfile Pruning
+
+Both May 11 jogi pin bumps (fb38e48a → 9088bd4, and 9cab162f → 4cd193b) crashed Render's build at the `npm ci` stage with EUSAGE / "Missing: ... from lock file" (webpack, terser, ajv, @webassemblyjs/*, etc.).
+
+Cause: the `npm install @jogi/classifier@github:...#<sha>` command was run with `--legacy-peer-deps`, which switches npm to a different resolution algorithm that prunes ~750 lines of transitive deps from `package-lock.json`. The pruned lockfile is incomplete for `npm ci`, so Render fails the build.
+
+The intermediate commit `jogi@9ca1d33b` already documented and fixed this after the first bump — and then the same mistake repeated on the second one.
+
+Fix (recorded for future agents): when bumping a satellite pin in jogi, use the canonical script (`npm run update:classifier` etc.) or plain `npm install` with no extra flags. If the lockfile was pruned, restore it from the last known-good commit (`git checkout <sha> -- package-lock.json`) and re-run the install. The diff against the known-good lockfile should be small (only the pinned package's `resolved` + `integrity` fields).
+
+This is now also captured in `CLAUDE.md` (Consumer integration section).
+
+## May 11 Disputed Groundtruth Review (partial)
+
+Round 1 of triage on the 5 remaining `evaluacion/` failures:
+
+**Inv Santander.pdf and Inv Santander (1).pdf** — byte-identical duplicates (md5 `eb7943f9...`). Page 1 is unambiguously a notarial certification: *"4a. Notaría Pública de Santiago — Cosme Fernando Gomila Gatica · El notario que suscribe, certifica que el presente documento electrónico es copia fiel e íntegra de la escritura pública de **COMPRAVENTA**, repertorio N°: 24911 de fecha 22 de Diciembre de 2016"*. Notary stamp, certified number, digital signature. The filename suggests "investments" but the *content* is a compraventa deed certification.
+
+→ **Recommendation**: change both rows in `evaluacion/CLASSIFICATION.md` from `inversiones` to `compraventa-propiedad`. The classifier already returns `compraventa-propiedad@1..9` (which is the full reproduced range in the PDF), so the fix in groundtruth would also make the case pass.
+
+**DAI 2024.pdf** — 1-page PDF. Page header reads "Pág. 3 / 12" (i.e., page 3 of a larger SII source), and the visible content is the BHE/BTE Honorarios table ("Períodos | Honorario bruto | Retención | Total Líquido", "No registra información") followed by "Declaraciones de IVA - Formulario 29 (F29)" rows for each month. **No F22 / DAI form is visible anywhere on this page.** The classifier returns `resumen-boletas-sii` (defensible: BHE/BTE are SII boletas content). Groundtruth says `declaracion-anual-impuestos` (definitely not — F22 isn't present).
+
+→ **Recommendation**: change the row from `declaracion-anual-impuestos` to `resumen-boletas-sii`. The classifier's choice matches the dominant visible content, and changing the groundtruth makes the case pass without further prompt churn. (Alternative `carpeta-tributaria` was considered but rejected because the file is 1 page and doesn't present as a container by itself.)
+
+Pending review (not yet looked at):
+- `evaluacion/Carpeta.pdf` — container-vs-child policy (groundtruth wants container only; classifier emits internal SII docs too).
+- `evaluacion/DAI 2025.pdf` — same container-vs-child policy as Carpeta.pdf.
+- `evaluacion/VentaProp Lo Barnechea.pdf` — long-deed split (informe-deuda carved out at pp82-86).
+- `evaluacion/VentaProp Santiago.pdf` — strict range clip (final-page miss on 1..38).
+
+These four are not strict-disputed-label cases; they're boundary/policy issues that may warrant prompt or doctype changes rather than groundtruth edits.
