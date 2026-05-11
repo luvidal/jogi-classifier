@@ -8,6 +8,7 @@
  */
 
 import { PDFDocument } from 'pdf-lib'
+import { promptFor } from './prompt'
 
 export interface Doctype {
     label: string
@@ -30,6 +31,7 @@ export interface Segment {
 export interface ClassifyOptions {
     candidateIds?: string[]
     model?: string
+    generationConfig?: Record<string, unknown>
 }
 
 export type GeminiCall = (params: { model: string; contents: any; config?: any }) => Promise<any>
@@ -50,7 +52,7 @@ export function getDoctypes(): Array<Doctype & { id: string }> {
 }
 
 export const NO_CLASIFICADO = 'no-clasificado'
-const DEFAULT_MODEL = 'gemini-2.5-flash'
+const DEFAULT_MODEL = 'gemini-2.5-pro'
 
 export async function classify(buffer: Buffer, mimetype: string, opts: ClassifyOptions = {}): Promise<Segment[]> {
     const all = getDoctypes()
@@ -59,7 +61,7 @@ export async function classify(buffer: Buffer, mimetype: string, opts: ClassifyO
 
     const isPdf = mimetype === 'application/pdf'
     const totalPages = isPdf ? await pageCount(buffer) : 1
-    const raw = await aiCall(buffer, mimetype, types, isPdf, opts.model ?? DEFAULT_MODEL)
+    const raw = await aiCall(buffer, mimetype, types, isPdf, opts.model ?? DEFAULT_MODEL, opts.generationConfig)
     const merged = mergeDuplicates(raw)
     const resolved = resolveSameRangeConflicts(merged)
     return isPdf ? fillGaps(resolved, totalPages) : resolved
@@ -69,45 +71,7 @@ async function pageCount(buf: Buffer): Promise<number> {
     return (await PDFDocument.load(Uint8Array.from(buf), { ignoreEncryption: true })).getPageCount()
 }
 
-function promptFor(types: Array<Doctype & { id: string }>, isPdf: boolean): string {
-    const list = types.map(t => {
-        const bits = [`${t.id}: ${t.definition || t.label}`]
-        if (t.freq) bits.push(`freq=${t.freq}`)
-        if (t.contains?.length) bits.push(`contains=[${t.contains.join(', ')}]`)
-        if (t.dateHint) bits.push(`docdate: ${t.dateHint}`)
-        return `- ${bits.join(' | ')}`
-    }).join('\n')
-
-    return `You are classifying a Chilean document upload.
-
-Return only documents that are physically present as their own visible document, form, certificate, statement, card, or report.
-Do NOT classify a doctype merely because its name, topic, or supporting data is mentioned inside another document.
-Prefer omission over guessing. If a page is uncertain, omit it; uncovered PDF pages will become no-clasificado.
-
-${isPdf ? `PDF range rules:
-- "start" and "end" are 1-indexed inclusive page ranges.
-- One physical/logical document gets one row spanning all its pages.
-- Multi-page certificates/reports/cards remain one row; do not split by page.
-- Multiple recurring instances, such as monthly liquidaciones or annual SII forms, get separate rows with disjoint ranges and their own docdate.
-- Do not return two different non-container doctypes for the exact same page range. Choose the one best supported by visible title/issuer/layout.
-- Container PDFs such as carpeta-tributaria may return the container plus actual child documents, but children need their exact visible ranges inside the container.
-` : ''}Cedula rule:
-- If both faces of cedula-identidad are visible in one ${isPdf ? 'page' : 'image'}, return two cedula-identidad rows with different partId ("front" and "back").
-- If only one face is visible, return one row with that partId when clear.
-
-Date rule:
-- "docdate" is YYYY-MM-DD for the period/emission date the document corresponds to, not access/download date.
-
-Output:
-- JSON only: {"documents":[...]}.
-- Omit entries with confidence < 0.5.
-- Do not use filenames as evidence.
-
-Doctypes:
-${list}`
-}
-
-async function aiCall(buf: Buffer, mimetype: string, types: Array<Doctype & { id: string }>, isPdf: boolean, model: string): Promise<Segment[]> {
+async function aiCall(buf: Buffer, mimetype: string, types: Array<Doctype & { id: string }>, isPdf: boolean, model: string, generationConfig?: Record<string, unknown>): Promise<Segment[]> {
     const ids = types.map(t => t.id)
     const itemProps: Record<string, unknown> = {
         id: { type: 'STRING', enum: ids },
@@ -126,6 +90,7 @@ async function aiCall(buf: Buffer, mimetype: string, types: Array<Doctype & { id
         model,
         contents: [{ role: 'user', parts: [{ inlineData: { mimeType: mimetype, data: buf.toString('base64') } }, { text: promptFor(types, isPdf) }] }],
         config: {
+            ...(generationConfig ?? {}),
             responseMimeType: 'application/json',
             responseSchema: {
                 type: 'OBJECT',

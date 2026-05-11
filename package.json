@@ -20,7 +20,8 @@
     "dev": "tsup --watch",
     "test": "vitest run",
     "test:watch": "vitest --watch",
-    "corpus": "tsx tests/corpus.ts"
+    "corpus": "tsx tests/corpus.ts",
+    "groundtruth": "tsx tests/groundtruth.ts"
   },
   "dependencies": {
     "pdf-lib": "^1.17.1"

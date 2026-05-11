@@ -9,6 +9,8 @@
 
 import { describe, it, expect, beforeEach } from 'vitest'
 import { PDFDocument } from 'pdf-lib'
+import * as fs from 'fs'
+import * as path from 'path'
 import { classify, configure, getDoctypes, NO_CLASIFICADO, type DoctypesMap, type GeminiCall } from '../src/index'
 
 const DOCTYPES: DoctypesMap = {
@@ -19,6 +21,9 @@ const DOCTYPES: DoctypesMap = {
         freq: 'annual',
         contains: ['declaracion-anual-impuestos', 'resumen-boletas-sii'],
     },
+    'compraventa-propiedad': { label: 'Compraventa', freq: 'once' },
+    'deuda-consumo': { label: 'Consumo', freq: 'once' },
+    'cartola-banco': { label: 'Cartola', freq: 'once' },
     'declaracion-anual-impuestos': { label: 'F22', freq: 'annual' },
     'resumen-boletas-sii': { label: 'Resumen boletas', freq: 'annual' },
 }
@@ -83,6 +88,62 @@ describe('classify (single-page image)', () => {
         })
         const segs = await classify(Buffer.from('fake'), 'image/png')
         expect(segs).toHaveLength(1)
+    })
+
+    it('passes caller generationConfig through to Gemini', async () => {
+        let observed: any
+        configure({
+            doctypes: DOCTYPES,
+            geminiCall: async params => {
+                observed = params.config
+                return { text: '{"documents":[]}' }
+            },
+        })
+        await classify(Buffer.from('fake'), 'image/png', {
+            generationConfig: {
+                temperature: 0,
+                topP: 0.1,
+                candidateCount: 1,
+                thinkingConfig: { thinkingBudget: 1024 },
+            },
+        })
+        expect(observed).toMatchObject({
+            temperature: 0,
+            topP: 0.1,
+            candidateCount: 1,
+            thinkingConfig: { thinkingBudget: 1024 },
+            responseMimeType: 'application/json',
+        })
+    })
+
+    it('defaults to Gemini Pro', async () => {
+        let observedModel = ''
+        configure({
+            doctypes: DOCTYPES,
+            geminiCall: async params => {
+                observedModel = params.model
+                return { text: '{"documents":[]}' }
+            },
+        })
+        await classify(Buffer.from('fake'), 'image/png')
+        expect(observedModel).toBe('gemini-2.5-pro')
+    })
+
+    it('sends the dominant-upload prompt policy', async () => {
+        let prompt = ''
+        configure({
+            doctypes: DOCTYPES,
+            geminiCall: async params => {
+                prompt = (params.contents[0]?.parts ?? []).find((p: any) => p.text)?.text ?? ''
+                return { text: '{"documents":[]}' }
+            },
+        })
+        await classify(await makePdf(1), 'application/pdf')
+        expect(prompt).toContain('Classify the upload by the dominant standalone document it represents')
+        expect(prompt).toContain('do not mine internal pages for every possible doctype')
+        expect(prompt).toContain('Long legal packets and certified notarial deed copies are dominant-document uploads')
+        expect(prompt).toContain('credit-card statements')
+        expect(prompt).toContain('an interior clause page from a notarial deed is not enough')
     })
 })
 
@@ -194,11 +255,45 @@ describe('candidateIds narrowing', () => {
             doctypes: DOCTYPES,
             geminiCall: async params => {
                 const promptText = (params.contents[0]?.parts ?? []).find((p: any) => p.text)?.text ?? ''
-                observed = Object.keys(DOCTYPES).filter(id => promptText.includes(id))
+                const doctypesList = promptText.split('Doctypes:\n')[1] ?? ''
+                observed = Object.keys(DOCTYPES).filter(id => doctypesList.includes(id))
                 return { text: '{"documents":[]}' }
             },
         })
         await classify(Buffer.from('fake'), 'image/jpeg', { candidateIds: ['cedula-identidad'] })
         expect(observed).toEqual(['cedula-identidad'])
+    })
+})
+
+describe('groundtruth saved-actual comparison', () => {
+    it('flags extra unmatched ranges even when the id is expected elsewhere', async () => {
+        const root = path.resolve('out/test-groundtruth-corpus')
+        const outPath = path.resolve('out/test-groundtruth-extra-range.json')
+        const actualPath = path.resolve('out/test-groundtruth-extra-range-actual.json')
+        await fs.promises.mkdir(root, { recursive: true })
+        await fs.promises.writeFile(path.join(root, 'CLASSIFICATION.md'), [
+            '| File | doc_type_id | Range |',
+            '| --- | --- | --- |',
+            '| doc.pdf | inversiones | 1 |',
+        ].join('\n'))
+        await fs.promises.writeFile(actualPath, JSON.stringify({
+            results: [{
+                file: 'doc.pdf',
+                actual: [
+                    { id: 'inversiones', start: 1, end: 1, confidence: 1 },
+                    { id: 'inversiones', start: 2, end: 2, confidence: 1 },
+                ],
+            }],
+        }))
+        process.env.CORPUS_ROOT = root
+        const { runGroundtruthComparison } = await import('./groundtruth')
+        const result = await runGroundtruthComparison({
+            files: new Set(['doc.pdf']),
+            outPath,
+            actualPath,
+            label: 'extra-range-test',
+        })
+        expect(result.passCount).toBe(0)
+        expect(result.results[0].error).toContain('unexpected inversiones@2..2')
     })
 })

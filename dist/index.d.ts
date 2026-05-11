@@ -25,6 +25,7 @@ interface Segment {
 interface ClassifyOptions {
     candidateIds?: string[];
     model?: string;
+    generationConfig?: Record<string, unknown>;
 }
 type GeminiCall = (params: {
     model: string;

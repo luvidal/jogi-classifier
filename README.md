@@ -21,7 +21,8 @@ classify(buffer: Buffer, mimetype: string, opts?: ClassifyOptions): Promise<Segm
 - **buffer** — PDF or image bytes.
 - **mimetype** — `'application/pdf'` | `'image/jpeg'` | `'image/png'` | `'image/webp'`.
 - **opts.candidateIds** — optional whitelist; if set, only these doctypes are sent to the model.
-- **opts.model** — defaults to `gemini-2.5-flash`.
+- **opts.model** — defaults to `gemini-2.5-pro`.
+- **opts.generationConfig** — optional Gemini generation overrides such as `temperature`, `topP`, `seed`, `candidateCount`, and `thinkingConfig`.
 
 Each `Segment` has `id`, `confidence`, optional `start`/`end` (1-indexed inclusive PDF page range), optional `docdate` (`YYYY-MM-DD`), optional `partId` (`'front'` | `'back'` for cedula).
 
@@ -39,6 +40,24 @@ configure({ doctypes, geminiCall: geminiGenerate })
 const segments = await classify(pdfBuffer, 'application/pdf')
 ```
 
+The main app owns Gemini authentication. Keep API keys, Vertex credentials,
+quotas, retries, logging, and auth refresh in the host's `geminiGenerate`
+implementation; this package only receives the already-authenticated
+`geminiCall` function.
+
+Correct:
+
+```ts
+configure({ doctypes, geminiCall })
+```
+
+Do not add raw secrets to this package's config:
+
+```ts
+// Not supported.
+configure({ doctypes, geminiCall, geminiKey })
+```
+
 `geminiCall` signature:
 
 ```ts
@@ -46,6 +65,107 @@ type GeminiCall = (params: { model: string; contents: any; config?: any }) => Pr
 ```
 
 The library handles JSON parsing, schema enforcement (`responseMimeType: 'application/json'` + `responseSchema`), and code-fence stripping.
+
+## Host transition guide
+
+When migrating a host app from direct Gemini calls to `@jogi/classifier`, move only the classification prompt/cleanup into this package. Leave auth and transport in the host:
+
+```ts
+// Host app code, not @jogi/classifier/src.
+import { GoogleGenAI } from '@google/genai'
+import { configure as configureClassifier } from '@jogi/classifier'
+import doctypes from './data/doctypes.json'
+
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
+
+configureClassifier({
+  doctypes,
+  geminiCall: ({ model, contents, config }) =>
+    ai.models.generateContent({ model, contents, config }),
+})
+```
+
+For Vertex AI, build `geminiCall` with the host's existing Vertex auth instead of an API key. Either way, this package receives only the function.
+
+## Parent Jogi upload use case
+
+To make `../jogi` use this classifier, treat it as a classification-only
+satellite. It should replace the upload classifier decision, not the parent
+app's auth, caching, persistence, field extraction, PDF splitting, or linking.
+
+1. Pin this package by commit SHA in `../jogi/package.json`:
+
+```json
+"@jogi/classifier": "github:luvidal/jogi-classifier#<40-char-sha>"
+```
+
+Build and commit this package before choosing the SHA, because the parent
+installs the packed `dist/` output.
+
+2. Configure it once from a server-only parent init such as
+`../jogi/lib/server/docsinit.ts`:
+
+```ts
+import { configure as configureClassifier } from '@jogi/classifier'
+import doctypes from '@/data/doctypes.json'
+import { geminiGenerate } from './gemini'
+
+configureClassifier({ doctypes, geminiCall: geminiGenerate })
+```
+
+Do not wire this from shared/browser-reachable modules if doing so would pull
+server Gemini auth into a client bundle.
+
+3. In `../jogi/lib/domain/upload/classify.ts`, gate the rollout behind an env
+flag such as `CLASSIFIER_V2=1` first, and use the satellite only for the
+non-forced Gemini classify path:
+
+```ts
+import { classify as classifySegments, NO_CLASIFICADO } from '@jogi/classifier'
+
+const segments = await classifySegments(buffer, mimetype, {
+  candidateIds: candidateDoctypes,
+  generationConfig: {
+    temperature: 0,
+    topP: 0.1,
+    seed: 1,
+    candidateCount: 1,
+    thinkingConfig: { thinkingBudget: 1024 },
+  },
+})
+
+const classifiedDocs = segments.map(s => ({
+  doc_type_id: s.id === NO_CLASIFICADO ? null : s.id,
+  start: s.start,
+  end: s.end,
+  confidence: s.confidence,
+  docdate: s.docdate,
+  partId: s.partId,
+  data: {},
+}))
+```
+
+Keep forced-doctype uploads and field extraction in the parent. If a flow needs
+immediate fields, run the parent's extraction path after the classifier picks a
+doctype; this package intentionally does not return field data.
+
+4. Use `candidateIds` with product context:
+
+- Requirement slots that already know the expected family should pass a narrow
+  candidate list.
+- Debt-family slots should exclude broad `compraventa-propiedad`; this is the
+  current best simple fix for `Hipo Banco.pdf`-style false positives.
+- Legal/compraventa uploads should keep the full catalog context, because narrow
+  legal candidate probes regressed long-packet ranges.
+- For narrowed requirement slots, an all-`no-clasificado` PDF result, or an
+  empty image result, can be a real negative. Do not blindly retry full catalog
+  for debt slots, or the fallback can reintroduce the `compraventa-propiedad`
+  false positive.
+
+5. Cache keys and metrics in the parent must include the satellite model/config
+and the candidate set. If the parent wants this package's current Pro baseline,
+omit `opts.model`; passing the parent's old `CLASSIFY_MODEL=gemini-2.5-flash`
+would intentionally override it.
 
 ## Doctype shape
 
@@ -70,17 +190,35 @@ Only `pdf-lib` (page count for gap fill). No AWS, no sharp, no AI SDK. Linux-por
 
 ## Manual corpus harness
 
-`tests/corpus.ts` runs the classifier against a curated set of real Chilean documents and asserts strict expected segments per file. Not CI — needs a Gemini API key and a local corpus folder.
+Manual harnesses run against real Chilean documents. They are not CI because they upload local corpus files to Gemini.
 
 ```bash
-# .env: GEMINI_API_KEY=...
+# .env for manual tools only, not library runtime:
+# GEMINI_API_KEY=... or GOOGLE_CLOUD_PROJECT=... + GOOGLE_CLOUD_LOCATION=...
 JOGI_DOCTYPES=/path/to/doctypes.json \
 CORPUS_ROOT=/Users/avd/Downloads/docs \
-  npm run corpus -- [--only=substr] [--model=gemini-2.5-flash]
+  npm run corpus -- [--only=substr] [--model=gemini-2.5-pro]
+
+npm run groundtruth -- [--only=substr] [--out=out/groundtruth.json]
+npm run param-sweep
 ```
 
-The current bar: 43/43 strict pass on the curated corpus.
+`param-sweep` writes to `out/param-sweep/<timestamp>/` and compares:
+
+- `baseline-defaults`
+- `deterministic` (`temperature: 0`, `topP: 0.1`, `seed: 1`, `candidateCount: 1`)
+- `deterministic-think-1024` (`temperature: 0`, `topP: 0.1`, `thinkingBudget: 1024`)
+
+## Playground
+
+Run a local browser dropzone for files or folders:
+
+```bash
+npm run playground
+```
+
+Open `http://localhost:4177`. The browser sends file bytes to the local Node server, and the server calls `classify()`. Gemini credentials stay server-side.
 
 ## Status
 
-Pre-1.0. Algorithm is final — surface bugs upstream rather than patching the prompt or post-processing locally.
+Pre-1.0. Keep the classifier prompt-first and lean. Prefer measured prompt/doctype/model changes over local detectors or page-ledger logic.
