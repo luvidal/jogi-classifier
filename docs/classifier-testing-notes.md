@@ -453,3 +453,35 @@ Net attributable to the rule: **+3, no regressions**. The other ±5 swing is str
 ### Iteration workflow win
 
 Validated the risk-surface-subset-before-full-corpus pattern. The 3-minute 19-case run caught the iteration-1 extrapolation regression cleanly; a 30-minute full-corpus run would have wasted ~$3 of API spend *and* mixed the regression in with the Pro non-determinism flips on the long-deed cases, making attribution harder. Recorded as a memory for future prompt iterations.
+
+## May 11 Fourth Iteration — Debt-Doc Precision (informe-deuda / informe-credito / deuda-consumo)
+
+Driven by parent plan `../jogi/docs/plans/classifier-debt-doc-precision.md`. Three failure modes from a redacted batch (2026-05-11): a 2-page CMF informe-deuda got per-page-split into siblings; a fragment of a third-party judicial expediente got typed as `informe-credito`; a single-transaction card payment screenshot got typed as `deuda-consumo`. Plan step A extends the `definition` of each affected doctype in `../jogi/data/doctypes.json`. Steps B (prompt version bump) and C (defensive collapse in `dedupe.ts`) were not needed — `@jogi/docs` `getPromptVersion()` digests `JSON.stringify(getDoctypes())` so definition edits bust the slice cache automatically, and step A is sufficient.
+
+### Definition extensions
+
+- **`informe-deuda`**: appended "Si el informe abarca varias páginas (encabezado/resumen + tabla de Deuda Directa + Créditos disponibles), trátalo como UN solo documento que cubre TODAS sus páginas. NUNCA emitir entradas separadas por página para un mismo informe CMF."
+- **`informe-credito`**: appended "RECHAZAR fragmentos de expedientes judiciales, listas de acreedores de procedimientos concursales (Liquidación Voluntaria/Forzosa Simplificada, SUPERIR), listas de juicios pendientes — incluso si listan instituciones financieras como acreedores. No son informes comerciales. Devolver documents:[]."
+- **`deuda-consumo`**: appended "RECHAZAR comprobantes/vouchers de transacción individual (pago, transferencia, abono) que muestran UN SOLO evento sin saldo total, cuotas, CAE, vencimiento ni monto facturado. Devolver documents:[]."
+
+### Risk-surface validation (22 cases)
+
+Pattern: every corpus case whose expected or saved actual involves `informe-deuda`, `informe-credito`, or `deuda-consumo` (per `out/validation-container-only-20260511.json`). Suite at `out/risk-suite-debt.ts`.
+
+Result: **18/22 (vs 17/22 baseline)**. Single delta attributable to edits: `gloria/Deuda.pdf` flipped FAIL→PASS (`informe-credito@1..1` → `no-clasificado@1..1`, rule A2 hit). All 11 CMF sentinels held (rule A1 no regression). All `deuda-consumo` real cases held (`evaluacion/Consumo Itaú.pdf`, `evucina/Consumo Itaú.pdf`, `yulian/.../Cartola Santander.pdf`). All `informe-credito` real cases held (`miguel/Deuda.pdf`).
+
+Harness quirk: `gloria/pago tajeta santander.png` flipped from returning `[deuda-consumo]` to returning `[]`. In production this is the correct result — both produce `doc_type_id IS NULL` — but the harness expects an explicit `[no-clasificado]` segment for images (PDFs get gap-filled by the classifier; images don't). Counts as still-FAIL in the harness but matches the plan's acceptance criterion. Future cleanup option: have `compareActual` treat empty actuals as matching an expected `no-clasificado` for images.
+
+### Full-corpus validation
+
+Artifact: `out/validation-debt-tune1-20260511-200747.json`. **188/197 strict pass (95%)** — up one from `187/197`.
+
+- **+1 real win** (rule A2): `gloria/Deuda.pdf`.
+- **+2 variance wins** (Pro non-determinism on known-unstable cases): `evaluacion/Inv Santander.pdf` (byte-identical pair, returned `@1..1` this run) and `evucina/Hipo Banco.pdf` (a documented `no-clasificado` false-positive case; the rule A2 nudge may have helped here too — judicial expediente vs. notarial mortgage clause share some shape).
+- **−2 variance losses**: `evucina/VentaProp Las Cabras.pdf` fragmented into the old multi-segment pattern instead of `@1..20`; `gloria/Avalúo.pdf` flipped from `no-clasificado` to `carpeta-tributaria@1..1`. Neither touches `informe-deuda` / `informe-credito` / `deuda-consumo`; both are on cases this doc already classifies as Pro-variance-prone (long-deed packets, Avalúo false positives).
+
+Net attributable to the rule: **+1, no real regressions**. The ±4 swing is structural Pro variance — same pattern as the May 11 container-only run that swung Inv Santander / VentaProp / Avalúo too.
+
+### Shipped
+
+Edits live in `../jogi/data/doctypes.json` (no satellite code change). The parent plan's target case (`CMF.pdf` 2-page split-into-two) is not in `~/Downloads/docs`; positive validation of rule A1 happens via the parent app's plan step D (re-upload of the redacted batch).
