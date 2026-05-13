@@ -10,12 +10,14 @@ Lean AI-first document classifier satellite for Jogi. One Gemini call → segmen
 
 ## Contract
 
-1. **One library entry point**: `classify(buffer, mimetype, opts?)`. No `Doc2Fields`-style field extraction here — that stays in `@jogi/docs`.
+1. **One library entry point**: `classify(buffer, mimetype, opts?)`. The only call-time input besides bytes/mimetype is `opts.candidateIds?: string[]`. No `model`, no `generationConfig`, no `Doc2Fields`-style field extraction.
 2. **Host-injected dependencies**: `configure({ doctypes, geminiCall })` is the only setup. The main app owns Gemini auth and passes an already-authenticated caller; do not add `geminiKey`/`apiKey` config fields, raw API-key handling, or AI SDK runtime deps to `src/`.
-3. **Algorithm is frozen**. Do not add per-page calls, local OCR, page ledgers, anchor regexes, deterministic doctype detectors, patchy post-processing, or "smart" merging without explicit approval. If a doctype mis-classifies, fix the doctype `definition`/`contains`/`freq` in the host's `doctypes.json`, or surface a prompt change for review.
-4. **Runtime deps**: `pdf-lib` only. No sharp, no AWS, no `@google/genai` in `src/`; `@google/genai` is allowed only in manual harnesses/playground.
-5. **Output is sorted segments**. PDF gaps are filled with `no-clasificado` (id constant exported as `NO_CLASIFICADO`).
-6. **Confidence floor**: segments below `0.5` are dropped at parse time.
+3. **Satellite owns the AI knobs**. Model (`gemini-2.5-pro`), generation profile (`temperature: 0, topP: 0.1, seed: 1, candidateCount: 1, thinkingConfig.thinkingBudget: 1024`), prompt, and response schema all live here. The host never overrides them at call time. Surface introspection via `getClassifierFingerprint()` and `getClassifierProfile()` — the host uses both for cache keys and telemetry.
+4. **Algorithm is frozen**. Do not add per-page calls, local OCR, page ledgers, anchor regexes, deterministic doctype detectors, patchy post-processing, or "smart" merging without explicit approval. If a doctype mis-classifies, fix the doctype `definition`/`contains`/`freq` in the host's `doctypes.json`, or surface a prompt change for review.
+5. **Runtime deps**: `pdf-lib` only. No sharp, no AWS, no `@google/genai` in `src/`; `@google/genai` is allowed only in manual harnesses/playground.
+6. **Output is sorted segments**. PDF gaps are filled with `no-clasificado` (id constant exported as `NO_CLASIFICADO`).
+7. **Confidence floor**: segments below `0.5` are dropped at parse time.
+8. **Fingerprint is content-derived**. `getClassifierFingerprint()` returns a 12-char sha256 over the static prompt template, response-schema shape, and generation profile. README/test/comment changes leave it untouched; prompt/schema/profile edits each move it.
 
 ## Code rules
 
@@ -37,7 +39,7 @@ Lean AI-first document classifier satellite for Jogi. One Gemini call → segmen
 - Current debugging context lives in `docs/classifier-testing-notes.md`; read it before changing prompt, definitions, model, or sweep cases.
 - Legacy trend JSON copied from Jogi's removed `tests/opus` sandbox lives in `docs/artifacts/opus/`.
 - Keep new manual run artifacts under gitignored `out/`; do not overwrite or delete archived trend data.
-- Default classifier model is `gemini-2.5-pro`; callers may still override `opts.model` for experiments.
+- Classifier model is `gemini-2.5-pro`, embedded internally. Callers cannot override it — manual experiments live in `dev/` / `tests/param-sweep.ts` and bypass `classify()`.
 - The latest difficult 11-case sweep is not solved: best Flash result is `4/11`; best Pro result is `7/11` with deterministic parameters plus `thinkingBudget: 1024`.
 - Pro deterministic fixed the legal-packet range failures in the 11-case suite; remaining failures are short-file labels plus `Hipo Banco.pdf` false-positive `compraventa-propiedad`.
 - Broader Pro deterministic validation on `~/Downloads/docs` is `177/197` strict pass in `out/validation-tune1-20260511-160556.json` (May 11 second sweep with the consolidated-position rule applied). The May 11 first sweep (`out/validation-ship-20260511-143643.json`) and May 8 baseline (`out/full-pro-deterministic-20260508-rerun.json`) are preserved as prior trend points. Remaining errors are strict range clipping, container-child policy, and disputed labels (DAI / Inv Santander).

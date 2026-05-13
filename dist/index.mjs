@@ -1,3 +1,4 @@
+import { createHash } from 'crypto';
 import { PDFDocument } from 'pdf-lib';
 
 // src/index.ts
@@ -67,13 +68,20 @@ function getDoctypes() {
 }
 var NO_CLASIFICADO = "no-clasificado";
 var DEFAULT_MODEL = "gemini-2.5-pro";
+var DEFAULT_GENERATION_CONFIG = {
+  temperature: 0,
+  topP: 0.1,
+  seed: 1,
+  candidateCount: 1,
+  thinkingConfig: { thinkingBudget: 1024 }
+};
 async function classify(buffer, mimetype, opts = {}) {
   const all = getDoctypes();
   const types = opts.candidateIds?.length ? all.filter((d) => opts.candidateIds.includes(d.id)) : all;
   if (types.length === 0) return [];
   const isPdf = mimetype === "application/pdf";
   const totalPages = isPdf ? await pageCount(buffer) : 1;
-  const raw = await aiCall(buffer, mimetype, types, isPdf, opts.model ?? DEFAULT_MODEL, opts.generationConfig);
+  const raw = await aiCall(buffer, mimetype, types, isPdf);
   const merged = mergeDuplicates(raw);
   const resolved = resolveSameRangeConflicts(merged);
   return isPdf ? fillGaps(resolved, totalPages) : resolved;
@@ -81,8 +89,7 @@ async function classify(buffer, mimetype, opts = {}) {
 async function pageCount(buf) {
   return (await PDFDocument.load(Uint8Array.from(buf), { ignoreEncryption: true })).getPageCount();
 }
-async function aiCall(buf, mimetype, types, isPdf, model, generationConfig) {
-  const ids = types.map((t) => t.id);
+function buildResponseSchema(ids, isPdf) {
   const itemProps = {
     id: { type: "STRING", enum: ids },
     confidence: { type: "NUMBER", minimum: 0, maximum: 1 },
@@ -95,17 +102,21 @@ async function aiCall(buf, mimetype, types, isPdf, model, generationConfig) {
     itemProps.end = { type: "INTEGER", minimum: 1 };
     required.push("start", "end");
   }
+  return {
+    type: "OBJECT",
+    properties: { documents: { type: "ARRAY", items: { type: "OBJECT", properties: itemProps, required } } },
+    required: ["documents"]
+  };
+}
+async function aiCall(buf, mimetype, types, isPdf) {
+  const ids = types.map((t) => t.id);
   const r = await getConfig().geminiCall({
-    model,
+    model: DEFAULT_MODEL,
     contents: [{ role: "user", parts: [{ inlineData: { mimeType: mimetype, data: buf.toString("base64") } }, { text: promptFor(types, isPdf) }] }],
     config: {
-      ...generationConfig ?? {},
+      ...DEFAULT_GENERATION_CONFIG,
       responseMimeType: "application/json",
-      responseSchema: {
-        type: "OBJECT",
-        properties: { documents: { type: "ARRAY", items: { type: "OBJECT", properties: itemProps, required } } },
-        required: ["documents"]
-      }
+      responseSchema: buildResponseSchema(ids, isPdf)
     }
   });
   const text = (r?.text || r?.candidates?.[0]?.content?.parts?.map?.((p) => p?.text || "").join?.("") || "").replace(/^```[a-z]*\n?/i, "").replace(/```$/, "").trim();
@@ -168,7 +179,19 @@ function fillGaps(segs, totalPages) {
 function sortSegments(a, b) {
   return (a.start ?? 0) - (b.start ?? 0) || (a.end ?? 0) - (b.end ?? 0) || a.id.localeCompare(b.id);
 }
+var fingerprintCache = null;
+function getClassifierFingerprint() {
+  if (fingerprintCache !== null) return fingerprintCache;
+  const promptTemplate = promptFor([], true) + "\0" + promptFor([], false);
+  const schema = JSON.stringify([buildResponseSchema([], true), buildResponseSchema([], false)]);
+  const profile = JSON.stringify(DEFAULT_GENERATION_CONFIG);
+  fingerprintCache = createHash("sha256").update(promptTemplate + "\0" + schema + "\0" + profile).digest("hex").slice(0, 12);
+  return fingerprintCache;
+}
+function getClassifierProfile() {
+  return { model: DEFAULT_MODEL };
+}
 
-export { NO_CLASIFICADO, classify, configure, getDoctypes, getDoctypesMap };
+export { NO_CLASIFICADO, classify, configure, getClassifierFingerprint, getClassifierProfile, getDoctypes, getDoctypesMap };
 //# sourceMappingURL=index.mjs.map
 //# sourceMappingURL=index.mjs.map

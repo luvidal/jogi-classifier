@@ -16,13 +16,17 @@ No local OCR, no anchors, no page ledger, no doctype detector. Approximately 200
 
 ```ts
 classify(buffer: Buffer, mimetype: string, opts?: ClassifyOptions): Promise<Segment[]>
+getClassifierFingerprint(): string
+getClassifierProfile(): { model: string }
 ```
 
 - **buffer** — PDF or image bytes.
 - **mimetype** — `'application/pdf'` | `'image/jpeg'` | `'image/png'` | `'image/webp'`.
 - **opts.candidateIds** — optional whitelist; if set, only these doctypes are sent to the model.
-- **opts.model** — defaults to `gemini-2.5-pro`.
-- **opts.generationConfig** — optional Gemini generation overrides such as `temperature`, `topP`, `seed`, `candidateCount`, and `thinkingConfig`.
+
+The model (`gemini-2.5-pro`) and the deterministic generation profile (`temperature: 0`, `topP: 0.1`, `seed: 1`, `candidateCount: 1`, `thinkingConfig.thinkingBudget: 1024`) are owned by this package. The host does not pass them at call time.
+
+`getClassifierFingerprint()` is a stable 12-char sha256 over the static prompt template, response-schema shape, and generation profile. Fold it into host cache keys so prompt/profile/schema edits invalidate cleanly. `getClassifierProfile()` returns `{ model }` for telemetry. README/test/comment edits leave the fingerprint untouched.
 
 Each `Segment` has `id`, `confidence`, optional `start`/`end` (1-indexed inclusive PDF page range), optional `docdate` (`YYYY-MM-DD`), optional `partId` (`'front'` | `'back'` for cedula).
 
@@ -116,22 +120,14 @@ configureClassifier({ doctypes, geminiCall: geminiGenerate })
 Do not wire this from shared/browser-reachable modules if doing so would pull
 server Gemini auth into a client bundle.
 
-3. In `../jogi/lib/domain/upload/classify.ts`, gate the rollout behind an env
-flag such as `CLASSIFIER_V2=1` first, and use the satellite only for the
-non-forced Gemini classify path:
+3. In the parent's classify path, use the satellite only for the non-forced
+Gemini classify call:
 
 ```ts
 import { classify as classifySegments, NO_CLASIFICADO } from '@jogi/classifier'
 
 const segments = await classifySegments(buffer, mimetype, {
   candidateIds: candidateDoctypes,
-  generationConfig: {
-    temperature: 0,
-    topP: 0.1,
-    seed: 1,
-    candidateCount: 1,
-    thinkingConfig: { thinkingBudget: 1024 },
-  },
 })
 
 const classifiedDocs = segments.map(s => ({
@@ -145,9 +141,11 @@ const classifiedDocs = segments.map(s => ({
 }))
 ```
 
-Keep forced-doctype uploads and field extraction in the parent. If a flow needs
-immediate fields, run the parent's extraction path after the classifier picks a
-doctype; this package intentionally does not return field data.
+Model and generation profile live inside this package and are non-overridable
+at call time. Keep forced-doctype uploads and field extraction in the parent.
+If a flow needs immediate fields, run the parent's extraction path after the
+classifier picks a doctype; this package intentionally does not return field
+data.
 
 4. Use `candidateIds` with product context:
 
@@ -162,10 +160,10 @@ doctype; this package intentionally does not return field data.
   for debt slots, or the fallback can reintroduce the `compraventa-propiedad`
   false positive.
 
-5. Cache keys and metrics in the parent must include the satellite model/config
-and the candidate set. If the parent wants this package's current Pro baseline,
-omit `opts.model`; passing the parent's old `CLASSIFY_MODEL=gemini-2.5-flash`
-would intentionally override it.
+5. Cache keys and metrics in the parent fold `getClassifierFingerprint()` plus
+the candidate set. The fingerprint moves on every prompt / profile / schema
+edit and stays stable across README/test/comment changes, so satellite cosmetic
+releases don't invalidate cached classifications.
 
 ## Doctype shape
 
@@ -191,15 +189,19 @@ Only `pdf-lib` (page count for gap fill). No AWS, no sharp, no AI SDK. Linux-por
 ## Manual corpus harness
 
 Manual harnesses run against real Chilean documents. They are not CI because they upload local corpus files to Gemini.
+The paid-test corpus is split into `corpus/per-file` and
+`corpus/per-solicitud`; see [docs/corpus.md](docs/corpus.md) for the active
+fixture contract and legacy corpus history.
 
 ```bash
 # .env for manual tools only, not library runtime:
 # GEMINI_API_KEY=... or GOOGLE_CLOUD_PROJECT=... + GOOGLE_CLOUD_LOCATION=...
-JOGI_DOCTYPES=/path/to/doctypes.json \
-CORPUS_ROOT=/Users/avd/Downloads/docs \
-  npm run corpus -- [--only=substr] [--model=gemini-2.5-pro]
+npm run corpus:manifest:per-file
+npm run corpus:manifest:per-solicitud
 
-npm run groundtruth -- [--only=substr] [--out=out/groundtruth.json]
+npm run groundtruth:per-file -- --out=out/per-file-groundtruth.json
+npm run groundtruth:per-solicitud:trusted -- --out=out/per-solicitud-trusted-groundtruth.json
+npm run groundtruth:per-solicitud -- --out=out/per-solicitud-groundtruth.json
 npm run param-sweep
 ```
 

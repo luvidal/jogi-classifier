@@ -24,8 +24,6 @@ interface Segment {
 }
 interface ClassifyOptions {
     candidateIds?: string[];
-    model?: string;
-    generationConfig?: Record<string, unknown>;
 }
 type GeminiCall = (params: {
     model: string;
@@ -43,5 +41,9 @@ declare function getDoctypes(): Array<Doctype & {
 }>;
 declare const NO_CLASIFICADO = "no-clasificado";
 declare function classify(buffer: Buffer, mimetype: string, opts?: ClassifyOptions): Promise<Segment[]>;
+declare function getClassifierFingerprint(): string;
+declare function getClassifierProfile(): {
+    model: string;
+};
 
-export { type ClassifierConfig, type ClassifyOptions, type Doctype, type DoctypesMap, type GeminiCall, NO_CLASIFICADO, type Segment, classify, configure, getDoctypes, getDoctypesMap };
+export { type ClassifierConfig, type ClassifyOptions, type Doctype, type DoctypesMap, type GeminiCall, NO_CLASIFICADO, type Segment, classify, configure, getClassifierFingerprint, getClassifierProfile, getDoctypes, getDoctypesMap };

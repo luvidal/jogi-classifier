@@ -7,6 +7,7 @@
  * detector.
  */
 
+import { createHash } from 'crypto'
 import { PDFDocument } from 'pdf-lib'
 import { promptFor } from './prompt'
 
@@ -30,8 +31,6 @@ export interface Segment {
 
 export interface ClassifyOptions {
     candidateIds?: string[]
-    model?: string
-    generationConfig?: Record<string, unknown>
 }
 
 export type GeminiCall = (params: { model: string; contents: any; config?: any }) => Promise<any>
@@ -53,6 +52,18 @@ export function getDoctypes(): Array<Doctype & { id: string }> {
 
 export const NO_CLASIFICADO = 'no-clasificado'
 const DEFAULT_MODEL = 'gemini-2.5-pro'
+// Deterministic generation profile. Owned by this satellite — the host must
+// not inject `model` or `generationConfig` at call time. Repeat classification
+// of identical input is bit-identical (required by host slice-cache hits and
+// request-level no-clasificado dedupe). `thinkingBudget: 1024` keeps Pro from
+// burning the 8192-token output cap on internal reasoning.
+const DEFAULT_GENERATION_CONFIG = {
+    temperature: 0,
+    topP: 0.1,
+    seed: 1,
+    candidateCount: 1,
+    thinkingConfig: { thinkingBudget: 1024 },
+} as const
 
 export async function classify(buffer: Buffer, mimetype: string, opts: ClassifyOptions = {}): Promise<Segment[]> {
     const all = getDoctypes()
@@ -61,7 +72,7 @@ export async function classify(buffer: Buffer, mimetype: string, opts: ClassifyO
 
     const isPdf = mimetype === 'application/pdf'
     const totalPages = isPdf ? await pageCount(buffer) : 1
-    const raw = await aiCall(buffer, mimetype, types, isPdf, opts.model ?? DEFAULT_MODEL, opts.generationConfig)
+    const raw = await aiCall(buffer, mimetype, types, isPdf)
     const merged = mergeDuplicates(raw)
     const resolved = resolveSameRangeConflicts(merged)
     return isPdf ? fillGaps(resolved, totalPages) : resolved
@@ -71,8 +82,7 @@ async function pageCount(buf: Buffer): Promise<number> {
     return (await PDFDocument.load(Uint8Array.from(buf), { ignoreEncryption: true })).getPageCount()
 }
 
-async function aiCall(buf: Buffer, mimetype: string, types: Array<Doctype & { id: string }>, isPdf: boolean, model: string, generationConfig?: Record<string, unknown>): Promise<Segment[]> {
-    const ids = types.map(t => t.id)
+function buildResponseSchema(ids: string[], isPdf: boolean): Record<string, unknown> {
     const itemProps: Record<string, unknown> = {
         id: { type: 'STRING', enum: ids },
         confidence: { type: 'NUMBER', minimum: 0, maximum: 1 },
@@ -85,18 +95,22 @@ async function aiCall(buf: Buffer, mimetype: string, types: Array<Doctype & { id
         itemProps.end = { type: 'INTEGER', minimum: 1 }
         required.push('start', 'end')
     }
+    return {
+        type: 'OBJECT',
+        properties: { documents: { type: 'ARRAY', items: { type: 'OBJECT', properties: itemProps, required } } },
+        required: ['documents'],
+    }
+}
 
+async function aiCall(buf: Buffer, mimetype: string, types: Array<Doctype & { id: string }>, isPdf: boolean): Promise<Segment[]> {
+    const ids = types.map(t => t.id)
     const r = await getConfig().geminiCall({
-        model,
+        model: DEFAULT_MODEL,
         contents: [{ role: 'user', parts: [{ inlineData: { mimeType: mimetype, data: buf.toString('base64') } }, { text: promptFor(types, isPdf) }] }],
         config: {
-            ...(generationConfig ?? {}),
+            ...DEFAULT_GENERATION_CONFIG,
             responseMimeType: 'application/json',
-            responseSchema: {
-                type: 'OBJECT',
-                properties: { documents: { type: 'ARRAY', items: { type: 'OBJECT', properties: itemProps, required } } },
-                required: ['documents'],
-            },
+            responseSchema: buildResponseSchema(ids, isPdf),
         },
     })
     const text = (r?.text || r?.candidates?.[0]?.content?.parts?.map?.((p: any) => p?.text || '').join?.('') || '')
@@ -164,4 +178,26 @@ function fillGaps(segs: Segment[], totalPages: number): Segment[] {
 
 function sortSegments(a: Segment, b: Segment): number {
     return (a.start ?? 0) - (b.start ?? 0) || (a.end ?? 0) - (b.end ?? 0) || a.id.localeCompare(b.id)
+}
+
+// Content-derived satellite fingerprint. Hashes the static prompt template
+// (rules text, no doctype interpolation), response-schema shape, and
+// deterministic generation profile. Used by the host as a cache-key shard so
+// classifier prompt/schema/profile edits invalidate cached classifications;
+// README/test/comment changes leave the hash inputs untouched.
+let fingerprintCache: string | null = null
+export function getClassifierFingerprint(): string {
+    if (fingerprintCache !== null) return fingerprintCache
+    const promptTemplate = promptFor([], true) + ' ' + promptFor([], false)
+    const schema = JSON.stringify([buildResponseSchema([], true), buildResponseSchema([], false)])
+    const profile = JSON.stringify(DEFAULT_GENERATION_CONFIG)
+    fingerprintCache = createHash('sha256')
+        .update(promptTemplate + ' ' + schema + ' ' + profile)
+        .digest('hex')
+        .slice(0, 12)
+    return fingerprintCache
+}
+
+export function getClassifierProfile(): { model: string } {
+    return { model: DEFAULT_MODEL }
 }

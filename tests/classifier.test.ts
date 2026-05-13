@@ -11,7 +11,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { PDFDocument } from 'pdf-lib'
 import * as fs from 'fs'
 import * as path from 'path'
-import { classify, configure, getDoctypes, NO_CLASIFICADO, type DoctypesMap, type GeminiCall } from '../src/index'
+import { classify, configure, getClassifierFingerprint, getClassifierProfile, getDoctypes, NO_CLASIFICADO, type DoctypesMap, type GeminiCall } from '../src/index'
 
 const DOCTYPES: DoctypesMap = {
     'cedula-identidad': { label: 'Cédula', freq: 'once' },
@@ -90,7 +90,7 @@ describe('classify (single-page image)', () => {
         expect(segs).toHaveLength(1)
     })
 
-    it('passes caller generationConfig through to Gemini', async () => {
+    it('embeds the deterministic generation profile internally', async () => {
         let observed: any
         configure({
             doctypes: DOCTYPES,
@@ -99,24 +99,18 @@ describe('classify (single-page image)', () => {
                 return { text: '{"documents":[]}' }
             },
         })
-        await classify(Buffer.from('fake'), 'image/png', {
-            generationConfig: {
-                temperature: 0,
-                topP: 0.1,
-                candidateCount: 1,
-                thinkingConfig: { thinkingBudget: 1024 },
-            },
-        })
+        await classify(Buffer.from('fake'), 'image/png')
         expect(observed).toMatchObject({
             temperature: 0,
             topP: 0.1,
+            seed: 1,
             candidateCount: 1,
             thinkingConfig: { thinkingBudget: 1024 },
             responseMimeType: 'application/json',
         })
     })
 
-    it('defaults to Gemini Pro', async () => {
+    it('always calls Gemini Pro (no host override)', async () => {
         let observedModel = ''
         configure({
             doctypes: DOCTYPES,
@@ -127,6 +121,7 @@ describe('classify (single-page image)', () => {
         })
         await classify(Buffer.from('fake'), 'image/png')
         expect(observedModel).toBe('gemini-2.5-pro')
+        expect(getClassifierProfile()).toEqual({ model: 'gemini-2.5-pro' })
     })
 
     it('sends the dominant-upload prompt policy', async () => {
@@ -262,6 +257,23 @@ describe('candidateIds narrowing', () => {
         })
         await classify(Buffer.from('fake'), 'image/jpeg', { candidateIds: ['cedula-identidad'] })
         expect(observed).toEqual(['cedula-identidad'])
+    })
+})
+
+describe('getClassifierFingerprint', () => {
+    it('returns a stable 12-char hex string', () => {
+        const fp = getClassifierFingerprint()
+        expect(fp).toMatch(/^[0-9a-f]{12}$/)
+        expect(getClassifierFingerprint()).toBe(fp)
+    })
+
+    it('is deterministic across cosmetic recomputations', () => {
+        // Calling twice in the same process must return the identical value;
+        // the host folds this into cache keys, so any drift here invalidates
+        // the production slice cache for no reason.
+        const a = getClassifierFingerprint()
+        const b = getClassifierFingerprint()
+        expect(a).toBe(b)
     })
 })
 
