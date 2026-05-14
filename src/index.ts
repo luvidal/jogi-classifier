@@ -11,12 +11,26 @@ import { createHash } from 'crypto'
 import { PDFDocument } from 'pdf-lib'
 import { promptFor } from './prompt'
 
+/**
+ * Structured classification hints for a doctype. Authored in the host's
+ * `doctypes.yaml`; rendered as telegraphic bullets by `promptFor()`. Reciprocity
+ * of `tieBreaker` is guaranteed by the host build (`build-doctypes.ts` mirrors
+ * each pair); boot validation here re-checks it as defense-in-depth.
+ */
+export interface DoctypeClassifier {
+    useWhen: string[]
+    signals: string[]
+    rejectWhen: string[]
+    tieBreaker: Array<{ vs: string; rule: string }>
+}
+
 export interface Doctype {
     label: string
     definition?: string
     dateHint?: string
     freq?: 'once' | 'monthly' | 'annual'
     contains?: string[]
+    classifier?: DoctypeClassifier
 }
 export type DoctypesMap = Record<string, Doctype>
 
@@ -39,7 +53,46 @@ export interface ClassifierConfig { doctypes: DoctypesMap; geminiCall: GeminiCal
 const CONFIG_KEY = Symbol.for('@jogi/classifier.config')
 const g = globalThis as unknown as Record<symbol, ClassifierConfig | undefined>
 
-export function configure(c: ClassifierConfig): void { g[CONFIG_KEY] = c }
+/**
+ * Boot validation — defense-in-depth over the host's `build-doctypes.ts`.
+ * Rejects a catalog whose `classifier` blocks are structurally broken:
+ *   - required fields (`useWhen`/`signals`/`rejectWhen`/`tieBreaker`) present
+ *     and of the right type;
+ *   - every `tieBreaker.vs` resolves to a real doctype id;
+ *   - reciprocity — every A→B pairing has a matching B→A entry.
+ * Doctypes with no `classifier` block are allowed (prompt falls back to
+ * `definition || label`); only a present-but-malformed block fails.
+ */
+function validateDoctypes(doctypes: DoctypesMap): void {
+    const ids = new Set(Object.keys(doctypes))
+    const errors: string[] = []
+    for (const [id, dt] of Object.entries(doctypes)) {
+        const c = dt.classifier
+        if (c === undefined) continue
+        for (const field of ['useWhen', 'signals', 'rejectWhen', 'tieBreaker'] as const) {
+            if (!Array.isArray(c[field])) errors.push(`${id}: classifier.${field} must be an array`)
+        }
+        if (!Array.isArray(c.tieBreaker)) continue
+        for (const tb of c.tieBreaker) {
+            if (!tb || typeof tb.vs !== 'string' || typeof tb.rule !== 'string') {
+                errors.push(`${id}: each tieBreaker needs string { vs, rule }`)
+                continue
+            }
+            if (tb.vs === id) errors.push(`${id}: tieBreaker.vs points at itself`)
+            else if (!ids.has(tb.vs)) errors.push(`${id}: tieBreaker.vs "${tb.vs}" is not a real doctype id`)
+            else {
+                const reverse = doctypes[tb.vs].classifier?.tieBreaker?.some(r => r.vs === id)
+                if (!reverse) errors.push(`${id} → ${tb.vs} tieBreaker has no reciprocal ${tb.vs} → ${id} entry`)
+            }
+        }
+    }
+    if (errors.length) throw new Error(`@jogi/classifier: invalid doctype catalog:\n  ${errors.join('\n  ')}`)
+}
+
+export function configure(c: ClassifierConfig): void {
+    validateDoctypes(c.doctypes)
+    g[CONFIG_KEY] = c
+}
 function getConfig(): ClassifierConfig {
     const c = g[CONFIG_KEY]
     if (!c) throw new Error('@jogi/classifier: configure({ doctypes, geminiCall }) was not called')

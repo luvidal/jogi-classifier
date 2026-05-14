@@ -6,12 +6,28 @@
  * resolution, and PDF gap fill. No local OCR, anchors, page ledger, or doctype
  * detector.
  */
+/**
+ * Structured classification hints for a doctype. Authored in the host's
+ * `doctypes.yaml`; rendered as telegraphic bullets by `promptFor()`. Reciprocity
+ * of `tieBreaker` is guaranteed by the host build (`build-doctypes.ts` mirrors
+ * each pair); boot validation here re-checks it as defense-in-depth.
+ */
+interface DoctypeClassifier {
+    useWhen: string[];
+    signals: string[];
+    rejectWhen: string[];
+    tieBreaker: Array<{
+        vs: string;
+        rule: string;
+    }>;
+}
 interface Doctype {
     label: string;
     definition?: string;
     dateHint?: string;
     freq?: 'once' | 'monthly' | 'annual';
     contains?: string[];
+    classifier?: DoctypeClassifier;
 }
 type DoctypesMap = Record<string, Doctype>;
 interface Segment {
@@ -46,4 +62,4 @@ declare function getClassifierProfile(): {
     model: string;
 };
 
-export { type ClassifierConfig, type ClassifyOptions, type Doctype, type DoctypesMap, type GeminiCall, NO_CLASIFICADO, type Segment, classify, configure, getClassifierFingerprint, getClassifierProfile, getDoctypes, getDoctypesMap };
+export { type ClassifierConfig, type ClassifyOptions, type Doctype, type DoctypeClassifier, type DoctypesMap, type GeminiCall, NO_CLASIFICADO, type Segment, classify, configure, getClassifierFingerprint, getClassifierProfile, getDoctypes, getDoctypesMap };

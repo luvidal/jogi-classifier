@@ -174,6 +174,12 @@ interface Doctype {
     dateHint?: string
     freq?: 'once' | 'monthly' | 'annual'
     contains?: string[]
+    classifier?: {
+        useWhen: string[]      // when this doctype IS the dominant standalone document
+        signals: string[]      // literal visual cues on the page (titles, logos, chrome)
+        rejectWhen: string[]   // when NOT to use it
+        tieBreaker: { vs: string; rule: string }[]  // pairwise look-alike distinctions
+    }
 }
 ```
 
@@ -181,6 +187,7 @@ interface Doctype {
 - **freq** — drives the prompt's recurring-instances rule (multiple monthly liquidaciones get separate rows).
 - **contains** — lists child doctype IDs that may appear inside this container (e.g. `carpeta-tributaria` contains `declaracion-anual-impuestos`, `resumen-boletas-sii`).
 - **dateHint** — guidance on what the `docdate` represents for this doctype.
+- **classifier** — optional structured classification hints, authored in the host's `doctypes.yaml`. `promptFor()` renders each block as telegraphic bullets (`useWhen` / `signals` / `rejectWhen` / `vs <id>`); doctypes with no `classifier` block fall back to a single `id: definition||label` line. `tieBreaker.vs` must resolve to a real doctype id and pairs must be reciprocal — the host build (`build-doctypes.ts`) auto-mirrors reciprocals, and `configure()` re-validates required fields, dangling `vs`, and reciprocity as defense-in-depth (throws on a broken catalog). The "Debt/account distinctions" prose that used to be hardcoded in the prompt now lives as `tieBreaker` entries on the debt-family doctypes.
 
 ## Runtime dependencies
 

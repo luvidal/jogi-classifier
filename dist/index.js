@@ -6,14 +6,26 @@ var pdfLib = require('pdf-lib');
 // src/index.ts
 
 // src/prompt.ts
+function renderDoctype(t) {
+  const meta = [];
+  if (t.freq) meta.push(`freq=${t.freq}`);
+  if (t.contains?.length) meta.push(`contains=[${t.contains.join(", ")}]`);
+  if (t.dateHint) meta.push(`docdate: ${t.dateHint}`);
+  const metaLine = meta.length ? ` | ${meta.join(" | ")}` : "";
+  const c = t.classifier;
+  if (!c) return `- ${t.id}: ${t.definition || t.label}${metaLine}`;
+  const lines = [`- ${t.id}: ${t.definition || t.label}${metaLine}`];
+  const sub = (label, items) => {
+    for (const it of items) lines.push(`    ${label}: ${it}`);
+  };
+  sub("useWhen", c.useWhen);
+  sub("signals", c.signals);
+  sub("rejectWhen", c.rejectWhen);
+  for (const tb of c.tieBreaker) lines.push(`    vs ${tb.vs}: ${tb.rule}`);
+  return lines.join("\n");
+}
 function promptFor(types, isPdf) {
-  const list = types.map((t) => {
-    const bits = [`${t.id}: ${t.definition || t.label}`];
-    if (t.freq) bits.push(`freq=${t.freq}`);
-    if (t.contains?.length) bits.push(`contains=[${t.contains.join(", ")}]`);
-    if (t.dateHint) bits.push(`docdate: ${t.dateHint}`);
-    return `- ${bits.join(" | ")}`;
-  }).join("\n");
+  const list = types.map(renderDoctype).join("\n");
   return `You are classifying a Chilean document upload.
 
 Return only documents that are physically present as their own visible document, form, certificate, statement, card, or report.
@@ -34,11 +46,6 @@ ${isPdf ? `PDF range rules:
 - If both faces of cedula-identidad are visible in one ${isPdf ? "page" : "image"}, return two cedula-identidad rows with different partId ("front" and "back").
 - If only one face is visible, return one row with that partId when clear.
 
-Debt/account distinctions:
-- Bank-issued credit-card statements ("Estado de Cuenta ... Tarjeta de Cr\xE9dito", card number, CAE, billed amount, minimum payment, purchases) are deuda-consumo, not cartola-banco.
-- Consolidated bank debt-position reports showing multiple product types at once (mortgages + consumer credit + credit lines + credit cards summary in the same view) are cartola-banco, not deuda-consumo \u2014 even when an individual row has a balance and maturity date. Reserve deuda-consumo for documents focused on a specific consumer credit or credit-card account.
-- Mortgage/consumer debt doctypes require a standalone bank statement/certificate/detail or portal page for that credit; an interior clause page from a notarial deed is not enough.
-
 Date rule:
 - "docdate" is YYYY-MM-DD for the period/emission date the document corresponds to, not access/download date.
 
@@ -48,13 +55,45 @@ Output:
 - Do not use filenames as evidence.
 
 Doctypes:
+Each doctype is one line "id: definition", optionally followed by indented hints:
+- useWhen: this doctype IS the dominant standalone document
+- signals: literal visual cues printed on the page (titles, logos, chrome)
+- rejectWhen: when NOT to use it
+- vs <other-id>: how to decide between this doctype and a look-alike one
 ${list}`;
 }
 
 // src/index.ts
 var CONFIG_KEY = /* @__PURE__ */ Symbol.for("@jogi/classifier.config");
 var g = globalThis;
+function validateDoctypes(doctypes) {
+  const ids = new Set(Object.keys(doctypes));
+  const errors = [];
+  for (const [id, dt] of Object.entries(doctypes)) {
+    const c = dt.classifier;
+    if (c === void 0) continue;
+    for (const field of ["useWhen", "signals", "rejectWhen", "tieBreaker"]) {
+      if (!Array.isArray(c[field])) errors.push(`${id}: classifier.${field} must be an array`);
+    }
+    if (!Array.isArray(c.tieBreaker)) continue;
+    for (const tb of c.tieBreaker) {
+      if (!tb || typeof tb.vs !== "string" || typeof tb.rule !== "string") {
+        errors.push(`${id}: each tieBreaker needs string { vs, rule }`);
+        continue;
+      }
+      if (tb.vs === id) errors.push(`${id}: tieBreaker.vs points at itself`);
+      else if (!ids.has(tb.vs)) errors.push(`${id}: tieBreaker.vs "${tb.vs}" is not a real doctype id`);
+      else {
+        const reverse = doctypes[tb.vs].classifier?.tieBreaker?.some((r) => r.vs === id);
+        if (!reverse) errors.push(`${id} \u2192 ${tb.vs} tieBreaker has no reciprocal ${tb.vs} \u2192 ${id} entry`);
+      }
+    }
+  }
+  if (errors.length) throw new Error(`@jogi/classifier: invalid doctype catalog:
+  ${errors.join("\n  ")}`);
+}
 function configure(c) {
+  validateDoctypes(c.doctypes);
   g[CONFIG_KEY] = c;
 }
 function getConfig() {

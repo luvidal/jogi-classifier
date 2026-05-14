@@ -12,6 +12,7 @@ import { PDFDocument } from 'pdf-lib'
 import * as fs from 'fs'
 import * as path from 'path'
 import { classify, configure, getClassifierFingerprint, getClassifierProfile, getDoctypes, NO_CLASIFICADO, type DoctypesMap, type GeminiCall } from '../src/index'
+import { promptFor } from '../src/prompt'
 
 const DOCTYPES: DoctypesMap = {
     'cedula-identidad': { label: 'Cédula', freq: 'once' },
@@ -137,8 +138,148 @@ describe('classify (single-page image)', () => {
         expect(prompt).toContain('Classify the upload by the dominant standalone document it represents')
         expect(prompt).toContain('do not mine internal pages for every possible doctype')
         expect(prompt).toContain('Long legal packets and certified notarial deed copies are dominant-document uploads')
-        expect(prompt).toContain('credit-card statements')
-        expect(prompt).toContain('an interior clause page from a notarial deed is not enough')
+    })
+
+    it('no longer hardcodes the debt/account distinctions prose', async () => {
+        // The "Debt/account distinctions" prose moved out of prompt code into
+        // per-doctype tieBreaker entries in the catalog.
+        let prompt = ''
+        configure({
+            doctypes: DOCTYPES,
+            geminiCall: async params => {
+                prompt = (params.contents[0]?.parts ?? []).find((p: any) => p.text)?.text ?? ''
+                return { text: '{"documents":[]}' }
+            },
+        })
+        await classify(await makePdf(1), 'application/pdf')
+        expect(prompt).not.toContain('Debt/account distinctions')
+        expect(prompt).not.toContain('an interior clause page from a notarial deed is not enough')
+    })
+})
+
+describe('promptFor — classifier block rendering', () => {
+    // Tiny hand-written fixture conforming to the frozen `classifier` schema.
+    // Does NOT depend on the host catalog.
+    const FIXTURE: Array<import('../src/index').Doctype & { id: string }> = [
+        {
+            id: 'deuda-consumo',
+            label: 'Deuda de consumo',
+            definition: 'Estado de cuenta de un crédito de consumo o tarjeta de crédito.',
+            freq: 'once',
+            classifier: {
+                useWhen: ['documento enfocado en una cuenta de crédito de consumo o tarjeta'],
+                signals: ["título 'Estado de Cuenta'", 'número de tarjeta, CAE, pago mínimo'],
+                rejectWhen: ['reporte consolidado con varios productos a la vez'],
+                tieBreaker: [
+                    { vs: 'cartola-banco', rule: 'tarjeta puntual = deuda-consumo; posición consolidada = cartola-banco' },
+                ],
+            },
+        },
+        {
+            id: 'cartola-banco',
+            label: 'Cartola banco',
+            definition: 'Cartola o reporte de posición consolidada de un banco.',
+            classifier: {
+                useWhen: ['reporte que muestra varios productos del banco a la vez'],
+                signals: ['tabla con hipotecarios + consumo + líneas + tarjetas'],
+                rejectWhen: ['estado de cuenta de una sola tarjeta'],
+                tieBreaker: [
+                    { vs: 'deuda-consumo', rule: 'posición consolidada = cartola-banco; tarjeta puntual = deuda-consumo' },
+                ],
+            },
+        },
+        // Doctype with no classifier block — must fall back to definition||label.
+        { id: 'cedula-identidad', label: 'Cédula', definition: 'Cédula de identidad chilena.' },
+        { id: 'padron', label: 'Padrón vehicular' },
+    ]
+
+    it('renders useWhen / signals / rejectWhen / vs bullets for a classifier block', () => {
+        const out = promptFor(FIXTURE, true)
+        expect(out).toContain('- deuda-consumo: Estado de cuenta de un crédito de consumo o tarjeta de crédito. | freq=once')
+        expect(out).toContain('    useWhen: documento enfocado en una cuenta de crédito de consumo o tarjeta')
+        expect(out).toContain("    signals: título 'Estado de Cuenta'")
+        expect(out).toContain('    rejectWhen: reporte consolidado con varios productos a la vez')
+        expect(out).toContain('    vs cartola-banco: tarjeta puntual = deuda-consumo; posición consolidada = cartola-banco')
+    })
+
+    it('falls back to definition||label for a doctype with no classifier block', () => {
+        const out = promptFor(FIXTURE, false)
+        expect(out).toContain('- cedula-identidad: Cédula de identidad chilena.')
+        expect(out).toContain('- padron: Padrón vehicular')
+        // No indented hint lines were emitted for the fallback doctypes.
+        expect(out).not.toMatch(/cedula-identidad[^\n]*\n {4}useWhen/)
+    })
+
+    it('preserves the load-bearing dominant-document rule', () => {
+        const out = promptFor(FIXTURE, true)
+        expect(out).toContain('Classify the upload by the dominant standalone document it represents')
+        expect(out).toContain('do not mine internal pages for every possible doctype')
+    })
+})
+
+describe('boot validation — configure() rejects a broken catalog', () => {
+    it('rejects a tieBreaker.vs that is not a real doctype id', () => {
+        expect(() => configure({
+            doctypes: {
+                'deuda-consumo': {
+                    label: 'Deuda',
+                    classifier: { useWhen: [], signals: [], rejectWhen: [], tieBreaker: [{ vs: 'ghost-doctype', rule: 'x' }] },
+                },
+            },
+            geminiCall: async () => ({ text: '{"documents":[]}' }),
+        })).toThrow(/not a real doctype id/)
+    })
+
+    it('rejects a non-reciprocal tieBreaker (A→B with no B→A)', () => {
+        expect(() => configure({
+            doctypes: {
+                'deuda-consumo': {
+                    label: 'Deuda',
+                    classifier: { useWhen: [], signals: [], rejectWhen: [], tieBreaker: [{ vs: 'cartola-banco', rule: 'x' }] },
+                },
+                'cartola-banco': {
+                    label: 'Cartola',
+                    classifier: { useWhen: [], signals: [], rejectWhen: [], tieBreaker: [] },
+                },
+            },
+            geminiCall: async () => ({ text: '{"documents":[]}' }),
+        })).toThrow(/no reciprocal/)
+    })
+
+    it('rejects a classifier block missing a required field', () => {
+        expect(() => configure({
+            doctypes: {
+                'deuda-consumo': {
+                    label: 'Deuda',
+                    // signals omitted
+                    classifier: { useWhen: [], rejectWhen: [], tieBreaker: [] } as any,
+                },
+            },
+            geminiCall: async () => ({ text: '{"documents":[]}' }),
+        })).toThrow(/classifier\.signals must be an array/)
+    })
+
+    it('accepts a doctype with no classifier block', () => {
+        expect(() => configure({
+            doctypes: { 'cedula-identidad': { label: 'Cédula' } },
+            geminiCall: async () => ({ text: '{"documents":[]}' }),
+        })).not.toThrow()
+    })
+
+    it('accepts a catalog with reciprocal tieBreaker pairs', () => {
+        expect(() => configure({
+            doctypes: {
+                'deuda-consumo': {
+                    label: 'Deuda',
+                    classifier: { useWhen: [], signals: [], rejectWhen: [], tieBreaker: [{ vs: 'cartola-banco', rule: 'x' }] },
+                },
+                'cartola-banco': {
+                    label: 'Cartola',
+                    classifier: { useWhen: [], signals: [], rejectWhen: [], tieBreaker: [{ vs: 'deuda-consumo', rule: 'x' }] },
+                },
+            },
+            geminiCall: async () => ({ text: '{"documents":[]}' }),
+        })).not.toThrow()
     })
 })
 
