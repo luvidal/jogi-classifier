@@ -26,6 +26,8 @@ getClassifierProfile(): { model: string }
 
 The model (`gemini-2.5-pro`) and the deterministic generation profile (`temperature: 0`, `topP: 0.1`, `seed: 1`, `candidateCount: 1`, `thinkingConfig.thinkingBudget: 1024`) are owned by this package. The host does not pass them at call time.
 
+Model-choice note (2026-05): keep Pro as the correctness baseline for scanned/image-only Chilean PDFs until fixtures prove otherwise. Gemini 3.5 Flash is the first replacement candidate to benchmark; Flash-Lite-class models are too risky as the authority for classification because prior Jogi tests lost OCR/table fidelity.
+
 `getClassifierFingerprint()` is a stable 12-char sha256 over the static prompt template, response-schema shape, and generation profile. Fold it into host cache keys so prompt/profile/schema edits invalidate cleanly. `getClassifierProfile()` returns `{ model }` for telemetry. README/test/comment edits leave the fingerprint untouched.
 
 Each `Segment` has `id`, `confidence`, optional `start`/`end` (1-indexed inclusive PDF page range), optional `docdate` (`YYYY-MM-DD`), optional `partId` (`'front'` | `'back'` for cedula).
